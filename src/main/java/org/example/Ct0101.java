@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.Scanner;
 
-public class Ct_01_01 {
+public class Ct0101 {
     /**
      * 1. 문자 찾기
      * 설명
