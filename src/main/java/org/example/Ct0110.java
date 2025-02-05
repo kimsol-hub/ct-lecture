@@ -1,6 +1,8 @@
 package org.example;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Ct0110 {
     /**
@@ -27,15 +29,25 @@ public class Ct0110 {
         /*
         * 1. 띄어쓰기 기준 split & toCharArray
         * 2. 떨어진 최소거리.. 각 target이 단어 어느 위치에 있는지 idx 확인
-        * 3. idx 전이면 해당 idx 부터 체크, 이후면 그 다음 idx로 이동해서 이전 idx와 거리 비교 후 적용
+        * 3. idxArr에 담아서 계산 시작
         * */
         String answer = "";
         String[] strArr = str.split(" ");
         String word = strArr[0];
-        char target = strArr[-1].charAt(0);
+        char target = strArr[1].charAt(0);
         char[] wordArr = word.toCharArray();
+        Set<Integer> idxArr = new HashSet<>();
 
-
+        for (int i = 0 ; i< wordArr.length ; i++) {
+            idxArr.add(word.indexOf(target, i));
+            int min = Integer.MAX_VALUE;
+            for (Integer idx : idxArr) {
+                if (min > Math.abs(idx-i)) {
+                    min = Math.abs(idx-i);
+                }
+            }
+            answer += min + " ";
+        }
 
         return answer;
     }
