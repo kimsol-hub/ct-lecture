@@ -27,11 +27,11 @@ public class Ct0202 {
      */
     public int solution(int[] arr, int n) {
         int answer = 1;
+        int max = arr[0];
         for (int i =1 ;i<n;i++) {
-            int[] tmp = Arrays.copyOf(arr, i);
-            int max = Arrays.stream(tmp).max().getAsInt();
             if (arr[i] > max) {
                 answer++;
+                max = arr[i];
             }
         }
 
