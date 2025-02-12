@@ -27,15 +27,16 @@ public class Ct0206 {
      * 예시 출력 1
      * 23 2 73 2 3
      */
-    public String solution(int n, String str) { /*뒤집어서 소수*/
+    public String solution(int n, int[] arr) { /*뒤집어서 소수*/
         /*
          * */
         String answer = "";
-        String[] numStr = str.split(" ");
-        for (int i=0;i<numStr.length;i++) {
-            String target = new StringBuilder(numStr[i]).reverse().toString();
-            if (isPrime(Integer.parseInt(target))) {
-                answer += target + " ";
+
+        for (int i=0;i<n;i++) {
+            String target = new StringBuilder(String.valueOf(arr[i])).reverse().toString();
+            int tmp = Integer.parseInt(target);
+            if (isPrime(tmp)) {
+                answer += tmp + " ";
             }
         }
 
@@ -53,8 +54,12 @@ public class Ct0206 {
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         int n = kb.nextInt();
-        String str = kb.nextLine().replaceAll("\n", "");
+        int[] arr = new int[n];
+        for (int i = 0; i<n;i++) {
+            arr[i] = kb.nextInt();
+        }
+//        String str = kb.nextLine().replaceAll("\n", "");
         Ct0206 main = new Ct0206();
-        System.out.println(main.solution(n, str));
+        System.out.println(main.solution(n, arr));
     }
 }
