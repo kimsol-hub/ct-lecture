@@ -37,16 +37,28 @@ public class Ct0210 {
      */
     public int solution(int n, int[][] arr) {
         int answer = 0;
-        int[][] tmpArr = new int[n+1][n+1];
-        for (int i=0;i<=n;i++) {
-            for (int j=0;j<=n;j++) {
-
+        int[][] tmpArr = new int[n+2][n+2];
+        for (int i=1;i<=n;i++) {
+            for (int j=1;j<=n;j++) {
+                tmpArr[i][j] = arr[i-1][j-1];
             }
-
         }
 
-
-
+        /**
+         * x-1, y
+         * x, y-1
+         * x+1, y
+         * x, y+1
+         * check
+         * */
+        for (int i = 1 ; i<=n ; i++) {
+            for (int j=1; j<=n ;j++) {
+                int target = tmpArr[i][j];
+                if (target > tmpArr[i-1][j] && target > tmpArr[i][j-1] &&target > tmpArr[i+1][j] && target > tmpArr[i][j+1]) {
+                    answer ++;
+                }
+            }
+        }
         return answer;
     }
 
