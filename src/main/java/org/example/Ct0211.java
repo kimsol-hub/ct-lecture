@@ -1,6 +1,8 @@
 package org.example;
 
+import java.util.HashSet;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Ct0211 {
     /**
@@ -48,17 +50,21 @@ public class Ct0211 {
     public int solution(int n, int[][] arr) {
         int answer = 0;
         int max = Integer.MIN_VALUE;
+        Set<Integer> sameClassStudent = new HashSet<>();
         /**
          * i가 학생 j는 학년 (5학년까지 고정
          * i학생 과 타학생들 비교 >> [0][0] i 1,2,3,4 비교 & [0][1] i 1,2,3,4비교        [1][0] [1][1] >> 이러면 삼중포문..
+         * 같은 학생과 같은 반일 경우를 고려X 해서 틀림.. 
          */
         for (int k = 0;k<n;k++) { // 각 학생
             int tmpCnt = 0;
+            sameClassStudent.clear();
             int[] student = arr[k];
             for (int i = 0; i< 5 ;i++) { //학년
                 for (int j=0;j<n;j++) {
                     if (k==j) continue;
-                    if (arr[j][i]==student[i]) {
+                    if (arr[j][i]==student[i] && ! sameClassStudent.contains(j)) {
+                        sameClassStudent.add(j);
                         tmpCnt++;
                     }
                 }

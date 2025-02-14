@@ -25,12 +25,12 @@ public class Ct0204 {
      */
     public String solution(int n) { /*N(3<=N<=45)*/
         String answer = "1 1 ";
-        int[] arr = new int[n];
-        arr[0] = 1;
-        arr[1] = 1;
+        int a=1, b=1, c;
         for (int i = 2;i <n ; i++) {
-            arr[i] = arr[i-2] + arr[i-1];
-            answer += arr[i] + " ";
+            c = a + b;
+            answer += c + " ";
+            a = b;
+            b = c;
         }
         return answer;
     }

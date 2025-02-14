@@ -1,8 +1,6 @@
 package org.example;
 
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class Ct0110 {
     /**
@@ -25,36 +23,42 @@ public class Ct0110 {
      * 1 0 1 2 1 0 1 2 2 1 0
      *
      */
-    public String solution(String str) {
+    public int[] solution(String str) {
         /*
-        * 1. 띄어쓰기 기준 split & toCharArray
-        * 2. 떨어진 최소거리.. 각 target이 단어 어느 위치에 있는지 idx 확인
-        * 3. idxArr에 담아서 계산 시작
-        * */
-        String answer = "";
+         * 1. 띄어쓰기 기준 split & toCharArray
+         * 2. 왼쪽 것을 기준으로 계산, 오른쪽을 기준으로 계산
+         * */
         String[] strArr = str.split(" ");
         String word = strArr[0];
+        int[] answer = new int[word.length()];
         char target = strArr[1].charAt(0);
-        char[] wordArr = word.toCharArray();
-        Set<Integer> idxArr = new HashSet<>();
 
-        for (int i = 0 ; i< wordArr.length ; i++) {
-            idxArr.add(word.indexOf(target, i));
-            int min = Integer.MAX_VALUE;
-            for (Integer idx : idxArr) {
-                if (min > Math.abs(idx-i)) {
-                    min = Math.abs(idx-i);
-                }
+        int P = 1000;
+
+        for (int i = 0 ; i< word.length() ; i++) {
+            if (word.charAt(i) == target) {
+                P=0;
+            } else {
+                P++;
             }
-            answer += min + " ";
+            answer[i] = P;
         }
-
+        for (int i = word.length()-1 ; i>= 0 ; i--) {
+            if (word.charAt(i) == target) {
+                P=0;
+            } else {
+                answer[i] = Math.min(answer[i], ++P);
+            }
+        }
         return answer;
     }
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         String input = kb.nextLine().replaceAll("\n", "");
         Ct0110 main = new Ct0110();
-        System.out.println(main.solution(input));
+        for (int n : main.solution(input)) {
+            System.out.print(n + " ");
+        }
+
     }
 }
