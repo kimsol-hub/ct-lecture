@@ -35,19 +35,19 @@ public class Ct0302 {
 
      */
     public int[] solution(int a, int b, int[] arrA, int[] arrB) {
-        int[] standardArr, otherArr;
-        if (a < b) {
-            standardArr = Arrays.stream(arrA).sorted().toArray();
-            otherArr = Arrays.stream(arrB).sorted().toArray();
-        } else {
-            standardArr = Arrays.stream(arrB).sorted().toArray();
-            otherArr = Arrays.stream(arrA).sorted().toArray();
-        }
-        int[] answer = new int[standardArr.length];
-        for (int i = 0; i< standardArr.length; i++) {
-            int finalI = i;
-            if (Arrays.stream(otherArr).anyMatch(value -> value == standardArr[finalI])) {
-                answer[i] = standardArr[i];
+        int idxA = 0, idxB=0;
+        Arrays.sort(arrA);
+        Arrays.sort(arrB);
+        int[] answer = new int[a];
+        while (idxA < a && idxB < b) {
+            if (arrA[idxA] > arrB[idxB]) {
+                idxB++;
+            } else if (arrA[idxA] < arrB[idxB]) {
+                idxA++;
+            } else {
+                answer[idxA] = arrA[idxA];
+                idxA++;
+                idxB++;
             }
         }
         return answer;
