@@ -37,31 +37,26 @@ public class Ct0209 {
 
      */
     public int solution(int n, int[][] arr) {
-        int answer = 0;
-        int rowTotal = 0;
-        int diagonolTotal = 0;
-        int reverseDiagonolTotal = 0;
-        int columnTotal = 0;
+        int answer = Integer.MIN_VALUE, sum1, sum2;
 
         for (int i=0;i<n;i++) {
-            diagonolTotal += arr[i][i];
+            sum1 = 0;
+            sum2 = 0;
             for (int j=0;j<n;j++) {
-                rowTotal += arr[i][j];
-                columnTotal += arr[j][i];
+                sum1 += arr[i][j];
+                sum2 += arr[j][i];
             }
-            int max = Math.max(rowTotal, columnTotal);
-            rowTotal = 0;
-            columnTotal = 0;
-            if (max > answer) {
-                answer = max;
-            }
+            answer = Math.max(sum1, answer);
+            answer = Math.max(sum2, answer);
         }
-        for (int i=n-1;i>=0;i--) {
-            reverseDiagonolTotal += arr[i][i];
+        sum1 = 0;
+        sum2 = 0;
+        for (int i=0;i<n;i++) {
+            sum1 += arr[i][i];
+            sum2 += arr[i][n-i-1];
         }
-
-        int tmp = Math.max(diagonolTotal, reverseDiagonolTotal);
-        if (tmp > answer) answer = tmp;
+        answer = Math.max(sum1, answer);
+        answer = Math.max(sum2, answer);
 
         return answer;
     }

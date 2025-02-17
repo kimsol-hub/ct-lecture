@@ -28,14 +28,15 @@ public class Ct0208 {
      4 3 2 1 5
 
      */
-    public String solution(int n, List<Integer> arr) {
+    public String solution(int n, int[] arr) {
         String answer = "";
-
-        List<Integer> sortArr = new ArrayList<>(arr);
-        Collections.sort(sortArr);
-        Collections.reverse(sortArr);
-        for (int i=0;i<n;i++) {
-            answer += (sortArr.indexOf(arr.get(i))+1) + " ";
+        for (int i = 0;i<n;i++) {
+            int tmp = 1;
+            for (int j = 0 ; j<n;j++) {
+                if (i==j) continue;
+                if (arr[i]<arr[j]) tmp++;
+            }
+            answer += tmp + " ";
         }
 
         return answer;
@@ -44,9 +45,9 @@ public class Ct0208 {
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         int n = kb.nextInt();
-        List<Integer> arr = new ArrayList<>();
+        int[] arr = new int[n];
         for (int i = 0;i<n;i++) {
-            arr.add(kb.nextInt());
+            arr[i] = kb.nextInt();
         }
         Ct0208 main = new Ct0208();
         System.out.println(main.solution(n, arr));
