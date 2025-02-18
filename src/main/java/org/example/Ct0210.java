@@ -37,24 +37,28 @@ public class Ct0210 {
      */
     public int solution(int n, int[][] arr) {
         int answer = 0;
-        int[][] tmpArr = new int[n+2][n+2];
-        for (int i=1;i<=n;i++) {
-            for (int j=1;j<=n;j++) {
-                tmpArr[i][j] = arr[i-1][j-1];
-            }
-        }
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, -1, 0, 1};
 
         /**
          * x-1, y
          * x, y-1
          * x+1, y
-         * x, y+1
+         * x, y+1 >> 이거를 dx, dy 배열에 넣어서 체크
          * check
          * */
-        for (int i = 1 ; i<=n ; i++) {
-            for (int j=1; j<=n ;j++) {
-                int target = tmpArr[i][j];
-                if (target > tmpArr[i-1][j] && target > tmpArr[i][j-1] &&target > tmpArr[i+1][j] && target > tmpArr[i][j+1]) {
+        for (int i = 0 ; i<n ; i++) {
+            for (int j=0; j<n ;j++) {
+                boolean flag = true;
+                for (int k=0; k<4;k++) {
+                    int nx = i + dx[k];
+                    int ny = j + dy[k];
+                    if (nx >=0 && nx <n && ny >=0 && ny <n && arr[nx][ny] >= arr[i][j]) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
                     answer ++;
                 }
             }

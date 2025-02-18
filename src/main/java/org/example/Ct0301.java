@@ -1,6 +1,7 @@
 package org.example;
 
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Ct0301 {
@@ -31,24 +32,19 @@ public class Ct0301 {
      * 예시 출력 1
      * 1 2 3 3 5 6 7 9
      */
-    public int[] solution(int a, int b, int[] arrA, int[] arrB) {
-        int[] answer = new int[a+b];
+    public List<Integer> solution(int a, int b, int[] arrA, int[] arrB) {
+        List<Integer> answer = new ArrayList<>();
         int idxA = 0;
         int idxB = 0;
-        for (int i = 0; i< a+b; i++) {
-            if (idxA >= a) {
-                answer[i] = arrB[idxB];
-                idxB++;
-            } else if (idxB >= b) {
-                answer[i] = arrA[idxA];
-                idxA++;
-            } else if (arrA[idxA] < arrB[idxB]) {
-                answer[i] = arrA[idxA];
-                idxA++;
-            } else {
-                answer[i] = arrB[idxB];
-                idxB++;
-            }
+        while (idxA<a && idxB < b) {
+            if (arrA[idxA]<arrB[idxB]) answer.add(arrA[idxA++]);
+            else answer.add(arrB[idxB++]);
+        }
+        while (idxA<a) {
+            answer.add(arrA[idxA++]);
+        }
+        while (idxB<b) {
+            answer.add(arrB[idxB++]);
         }
         return answer;
 
