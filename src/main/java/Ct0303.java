@@ -31,16 +31,14 @@ public class Ct0303 {
      56
      */
     public int solution(int n, int k, int[] arr) {
-        int answer = 0, sum = 0;
-        for (int i = 0; i<k;i++) { //초기 k일 연속 매출액
+        int answer = Integer.MIN_VALUE, sum = 0, lt = 0;
+        for (int i = 0; i<k-1;i++) { //초기 k일 연속 매출액
             sum += arr[i];
         }
-        answer = sum;
-        for (int i = k;i<n;i++) {
-            sum = sum - arr[i-k] + arr[i];
-            if (answer<sum) {
-                answer = sum;
-            }
+        for (int rt = k-1;rt<n;rt++) {
+            sum += arr[rt];
+            if (answer<sum) answer = sum;
+            sum -= arr[lt++];
         }
         return answer;
 

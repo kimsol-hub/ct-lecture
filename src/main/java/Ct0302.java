@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Ct0302 {
@@ -31,19 +33,18 @@ public class Ct0302 {
      2 3 5
 
      */
-    public int[] solution(int a, int b, int[] arrA, int[] arrB) {
+    public List<Integer> solution(int a, int b, int[] arrA, int[] arrB) {
         int idxA = 0, idxB=0;
         Arrays.sort(arrA);
         Arrays.sort(arrB);
-        int[] answer = new int[a];
+        List<Integer> answer = new ArrayList<>();
         while (idxA < a && idxB < b) {
             if (arrA[idxA] > arrB[idxB]) {
                 idxB++;
             } else if (arrA[idxA] < arrB[idxB]) {
                 idxA++;
             } else {
-                answer[idxA] = arrA[idxA];
-                idxA++;
+                answer.add(arrA[idxA++]);
                 idxB++;
             }
         }

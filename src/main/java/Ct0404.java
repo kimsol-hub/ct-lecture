@@ -33,36 +33,27 @@ public class Ct0404 {
         Map<Character, Integer> tAna = new HashMap<>();
         Map<Character, Integer> sAna = new HashMap<>();
 
+
         for (int i = 0;i<t.length();i++) {
             tAna.put(t.charAt(i), tAna.getOrDefault(t.charAt(i), 0)+1);
+        }
+        for (int i = 0;i<t.length()-1;i++) {
             sAna.put(s.charAt(i), sAna.getOrDefault(s.charAt(i), 0)+1);
         }
 
-        if (checkAna(sAna, tAna)) answer++;
-        for (int i=t.length(); i<s.length();i++) {
-            if (sAna.get(s.charAt(i-t.length()))-1 > 0) {
-                sAna.put(s.charAt(i-t.length()), sAna.get(s.charAt(i-t.length()))-1);
-            } else {
-                sAna.remove(s.charAt(i-t.length()));
-            }
-            sAna.put(s.charAt(i), sAna.getOrDefault(s.charAt(i), 0)+1);
+        int lt = 0;
+        for (int rt=t.length()-1; rt<s.length();rt++) {
+            sAna.put(s.charAt(rt), sAna.getOrDefault(s.charAt(rt), 0)+1);
+            if (tAna.equals(sAna)) answer++;
+            sAna.put(s.charAt(lt), sAna.get(s.charAt(lt))-1);
 
-            if (checkAna(sAna, tAna)) answer++;
+            if (sAna.get(s.charAt(lt)) == 0) sAna.remove(s.charAt(lt));
+            lt++;
         }
         return answer;
 
     }
 
-    public boolean checkAna(Map<Character, Integer> sAna, Map<Character, Integer> tAna) {
-        boolean isAna = true;
-        for (char c: tAna.keySet()) {
-            if (tAna.get(c)!=sAna.getOrDefault(c, 0)) {
-                isAna = false;
-                break;
-            }
-        }
-        return isAna;
-    }
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         String s = kb.nextLine().replaceAll("\n", "");

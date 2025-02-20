@@ -33,15 +33,16 @@ public class Ct0304 {
      */
     public int solution(int n, int m, int[] arr) {
         /* 연속수열의 합이 m인 경우 가짓수 구하기*/
-        int answer = 0, sum = 0;
+        int answer = 0, sum = 0, rt=0;
 
-        for (int i = 0; i<n ; i++) {
-            sum = arr[i];
-            for (int j = i+1 ; j<n ; j++) {
-                if (sum >= m) break;
-                sum += arr[j];
+        for (int lt = 0; lt<n;lt++) {
+            rt = lt+1;
+            sum = arr[lt];
+            while (sum < m && rt<n) {
+                sum += arr[rt];
+                if (sum==m) answer++;
+                rt++;
             }
-            if (sum==m) answer++;
         }
 
         return answer;

@@ -37,24 +37,20 @@ public class Ct0402 {
     public String solution(String a, String b) {
         /* 아나그램이면 YES 아니면 NO */
         String answer = "YES";
-        Map<Character, Integer> aMap = new HashMap<>();
-        Map<Character, Integer> bMap = new HashMap<>();
+        Map<Character, Integer> map = new HashMap<>();
 
-        for (int i = 0; i<a.length();i++) {
-            aMap.put(Character.valueOf(a.charAt(i)), aMap.getOrDefault(Character.valueOf(a.charAt(i)), 0)+1);
-            bMap.put(Character.valueOf(b.charAt(i)), bMap.getOrDefault(Character.valueOf(b.charAt(i)), 0)+1);
-        }
-        if (aMap.size() == bMap.size()) {
-            for (char key: aMap.keySet()) {
-                if (aMap.get(key) != bMap.getOrDefault(key, 0)) {
-                    return "NO";
-                }
-            }
-        } else {
-            return "NO";
+        for (char c : a.toCharArray()) {
+            map.put(c, map.getOrDefault(c, 0)+1);
         }
 
+        for (char c : b.toCharArray()) {
+            if (map.containsKey(c)) {
+                int value = map.get(c);
+                if (value==0) return "NO";
+                map.put(c, value-1);
+            } else return "NO";
 
+        }
         return answer;
 
     }

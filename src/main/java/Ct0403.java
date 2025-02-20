@@ -34,23 +34,21 @@ public class Ct0403 {
         /* 매출액 종류 순서대로 출력 */
         List<Integer> answer = new ArrayList<>();
         Map<Integer, Integer> res = new HashMap<>();
+        int lt = 0;
 
-        for (int i = 0; i<k ;i++) {
+        for (int i = 0; i<k-1 ;i++) {
             res.put(arr[i], res.getOrDefault(arr[i], 0)+1);
         }
-        answer.add(res.size());
 
-        for (int i = k; i<n ;i++) {
-
-            if (res.get(arr[i-k])-1 == 0) {
-                res.remove(arr[i-k]);
-            } else {
-                res.put(arr[i-k], res.get(arr[i-k])-1);
-            }
-            res.put(arr[i], res.getOrDefault(arr[i], 0)+1);
+        for (int rt = k-1; rt<n ;rt++) {
+            res.put(arr[rt], res.getOrDefault(arr[rt], 0)+1);
             answer.add(res.size());
-        }
+            res.put(arr[lt], res.get(arr[lt])-1);
 
+            if (res.get(arr[lt]) == 0) res.remove(arr[lt]);
+
+            lt++;
+        }
 
         return answer;
 
