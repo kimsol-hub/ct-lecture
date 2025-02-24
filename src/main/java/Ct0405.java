@@ -1,7 +1,6 @@
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Scanner;
+import java.util.TreeSet;
 
 public class Ct0405 {
     /**
@@ -30,27 +29,20 @@ public class Ct0405 {
         /* n장에서 3개의 합 중 k번째 큰값, 중복O, 연속된거X
         * n개에서 3개를 뽑는 가짓수 조합개수 공식 뭐더라 n!/(n-3)!3! n*(n-1)*(n-2);
         * */
-        int answer = 0, sum=0;
-        List<Integer> res = new ArrayList<>();
-        if (n*(n-1)*(n-2)/6<k) {
-            return -1;
-        }
-        for (int i =0 ;i<n-2;i++) {
-            for (int j=i+1;j<n-1;j++) {
+        int answer = -1;
+        TreeSet<Integer> res = new TreeSet<>(Collections.reverseOrder());
+        for (int i =0 ;i<n;i++) {
+            for (int j=i+1;j<n;j++) {
                 for (int l=j+1;l<n;l++) {
-                    int tmp = arr[i] + arr[j] + arr[l];
-                    if (!res.contains(tmp)) {
-                        res.add(tmp);
-                    }
+                    res.add(arr[i] + arr[j] + arr[l]);
                 }
             }
         }
-        if (res.size()<k-1) {
-            return -1;
+        int cnt = 0;
+        for (int x : res) {
+            cnt++;
+            if (cnt==k) return x;
         }
-        Collections.sort(res);
-        Collections.reverse(res);
-        answer = res.get(k-1);
         return answer;
 
     }
