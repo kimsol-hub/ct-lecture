@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Ct0502 {
     /**
@@ -24,17 +25,16 @@ public class Ct0502 {
     public String solution(String s) {
         /*소괄호 사이 문자 전부 제거*/
         String answer = "";
-        boolean flag = true;
-        int n = 0;
-        for (char c : s.toCharArray()) {
-            if (c=='(') n++;
-            else if (c==')') n--;
-            else if (flag) answer+=c;
+        Stack<Character> stack = new Stack<>();
 
-            if (n == 0) flag = true;
-            else flag = false;
+        for (char c : s.toCharArray()) {
+            if (c==')') {
+                while (stack.pop() != '(');
+            }
+            else stack.push(c);
         }
 
+        for (char c : stack) answer += c;
         return answer;
 
     }

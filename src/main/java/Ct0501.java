@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.Stack;
 
 public class Ct0501 {
     /**
@@ -23,16 +24,18 @@ public class Ct0501 {
      */
     public String solution(String s) {
         String answer = "YES";
-        int n = 0;
+        Stack<Character> stack = new Stack<>();
         for (char c : s.toCharArray()) {
-            if (n < 0) {
-                answer = "NO";
-                break;
+            if (c=='(') stack.push(c);
+            else {
+                if (stack.isEmpty()) {
+                    answer = "NO";
+                    break;
+                } else stack.pop();
             }
-            if (c=='(') n++;
-            else if (c==')') n--;
+
         }
-        if (n>0 || n<0) answer = "NO";
+        if (!stack.isEmpty()) answer = "NO";
         return answer;
 
     }

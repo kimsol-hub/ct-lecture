@@ -61,19 +61,17 @@ public class Ct0503 {
         /* 바구니에서 터진 인형 개수 (같은 모양 인형 2개 연속이면) */
         Stack<Integer> bucket = new Stack<>();
         int answer = 0;
-        for (int i=0;i<m;i++) {
-            for (int j=0;j<n;j++) {
-                int target = arr[j][move[i] - 1];
-                if (target!=0) {
-                    int last = 0;
-                    if (!bucket.empty()) last = bucket.peek();
-                    if (last == target) {
+        for (int x : move) {
+            int target = 0;
+            for (int i=0;i<n;i++) {
+                if (arr[i][x-1] != 0) {
+                    target = arr[i][x-1];
+                    if (bucket.isEmpty()) bucket.push(target);
+                    else if (bucket.peek() == target) {
                         bucket.pop();
-                        answer+=2;
-                    } else {
-                        bucket.push(target);
-                    }
-                    arr[j][move[i] - 1] = 0;
+                        answer += 2;
+                    } else bucket.push(target);
+                    arr[i][x-1] = 0;
                     break;
                 }
             }
