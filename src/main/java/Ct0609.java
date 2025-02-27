@@ -28,36 +28,41 @@ public class Ct0609 {
      9 3
      1 2 3 4 5 6 7 8 9
 
-     예시 출력 1 (( 1 2 3 4 5 / 6 7 / 8 9
+     예시 출력 1 (( 1 2 3 4 5 / 6 7 / 8 9           1 2 3 4 5
      17
 
      */
-    public int solution(int n, int m, int[] arr) {
+    public int solution(int n, int m, int[] arr, int sum, int min) {
         /* 결정알고리즘 m개로 쪼갰을 때 최대한 비슷하면서 최적값 찾기
-        *   분기점 M-1개 존재
-            초기 분기점 >> /M 한 개수
-
-            1 2 3 4 5 / 6 7 / 8 9
-
-            총합 구한 다음 /m >>
-            1 ~ 10
-            15 13 17 45네..
-            n*n+1 /2
-
-            45/3 15
-
-            15에 가깝게 다 잘라
-            1 2 3 4 5
-
-            6 7
-            8 9
-        *
+        *  최소값은 배열 내의 최소값, 최대값은 전체합에서 최소값-1로 가정
+        *  mid = lt와 rt의 중간값
+        *  mid를 기준으로 값을 더하면서 몇 번 나눴는지 체크 & 각 합의 최대값 구함
+        *  cnt <=m 의 경우 더 작은 값을 탐색하도록 rt = mid-1, cnt > m의 경우 더 큰 값을 탐색하도록 lt = mid+1 로 나눠서 진행
+        *  lt<=rt를 기준으로 탐색
+        *  -- 못 품. 다른 사람 알고리즘 참고
         * */
-        int answer = 0;
-        List<Integer> idxList = new ArrayList<>();
-        /**/
+        int answer = Integer.MAX_VALUE, mid = 0;
+        int lt = 0, rt = sum;
 
 
+        while (lt <= rt) {
+            mid = (lt + rt) /2;
+            int max = 0, tmpSum = 0, cnt = 1;
+            for (int i = 0; i<n; i++) {
+                if (tmpSum + arr[i] > mid) {
+                    if (tmpSum > max) max = tmpSum;
+                    tmpSum = arr[i];
+                    cnt++;
+                } else tmpSum += arr[i];
+            }
+            if (tmpSum > max) max = tmpSum;
+            if (cnt <= m) {
+                answer = Math.min(max, answer);
+                rt = mid-1;
+            } else if (cnt > m) {
+                lt = mid +1;
+            }
+        }
 
         return answer;
     }
@@ -67,10 +72,13 @@ public class Ct0609 {
         int n = kb.nextInt();
         int m = kb.nextInt();
         int[] arr = new int[n];
+        int sum = 0, min = Integer.MAX_VALUE;
         for (int i = 0;i<n;i++) {
             arr[i] = kb.nextInt();
+            sum += arr[i];
+            min = Math.max(arr[i], min);
         }
         Ct0609 main = new Ct0609();
-        System.out.println(main.solution(n, m, arr));
+        System.out.println(main.solution(n, m, arr, sum, min));
     }
 }
