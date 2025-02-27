@@ -32,7 +32,7 @@ public class Ct0609 {
      17
 
      */
-    public int solution(int n, int m, int[] arr, int sum, int min) {
+    public int solution(int n, int m, int[] arr, int sum) {
         /* 결정알고리즘 m개로 쪼갰을 때 최대한 비슷하면서 최적값 찾기
         *  최소값은 배열 내의 최소값, 최대값은 전체합에서 최소값-1로 가정
         *  mid = lt와 rt의 중간값
@@ -72,13 +72,12 @@ public class Ct0609 {
         int n = kb.nextInt();
         int m = kb.nextInt();
         int[] arr = new int[n];
-        int sum = 0, min = Integer.MAX_VALUE;
+        int sum = 0;
         for (int i = 0;i<n;i++) {
             arr[i] = kb.nextInt();
             sum += arr[i];
-            min = Math.max(arr[i], min);
         }
         Ct0609 main = new Ct0609();
-        System.out.println(main.solution(n, m, arr, sum, min));
+        System.out.println(main.solution(n, m, arr, sum));
     }
 }
