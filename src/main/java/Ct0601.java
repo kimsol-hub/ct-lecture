@@ -27,19 +27,16 @@ public class Ct0601 {
 
     public int[] solution(int n, int[] arr) {
         /* 최소값 탐색 후 순차적으로 변경*/
-        int lt = 0;
-        while (lt < n) {
-            int min = arr[lt], idx = lt;
-            for (int i = lt+1 ; i<n ; i++) {
-                if (min > arr[i]) {
-                    min = arr[i];
-                    idx = i;
+        for (int i = 0; i<n-1; i++) {
+            int idx = i;
+            for (int j = i+1 ; j<n-1 ; j++) {
+                if (arr[idx] > arr[j]) {
+                    idx = j;
                 }
             }
-            int tmp = arr[lt];
-            arr[lt] = arr[idx];
+            int tmp = arr[i];
+            arr[i] = arr[idx];
             arr[idx] = tmp;
-            lt++;
         }
         return arr;
     }

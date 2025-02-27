@@ -24,16 +24,14 @@ public class Ct0602 {
      */
     public int[] solution(int n, int[] arr) {
         /* 1,2 2,3 순차 탐색 및 크면 바꾸기, 마지막까지 바꾸면 끝 */
-        int lt = n;
-        while (lt > 0) {
-            for (int i = 0;i<lt-1;i++) {
-                if (arr[i] > arr[i+1]) {
-                    int tmp = arr[i];
-                    arr[i] = arr[i+1];
-                    arr[i+1] = tmp;
+        for (int i=0;i<n-1;i++) {
+            for (int j = 0;j<n-i-1;j++) {
+                if (arr[j] > arr[j+1]) {
+                    int tmp = arr[j];
+                    arr[j] = arr[j+1];
+                    arr[j+1] = tmp;
                 }
             }
-            lt--;
         }
 
         return arr;

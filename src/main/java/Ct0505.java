@@ -52,20 +52,18 @@ public class Ct0505 {
         int answer = 0;
 
         Stack<Character> stack = new Stack<>();
-        Stack<Character> tmp = new Stack<>();
 
-        for (char c : s.toCharArray()) {
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
             if(c=='(') stack.push(c);
             else if(c==')') {
-                if ("()".equals(String.valueOf(tmp.peek())+c)) {
-                    stack.pop();
+                stack.pop();
+                if (s.charAt(i-1) =='(') {
                     answer += stack.size();
                 } else {
-                    stack.pop();
                     answer++;
                 }
             }
-            tmp.push(c);
         }
         return answer;
 

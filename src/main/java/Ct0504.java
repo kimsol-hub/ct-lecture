@@ -30,27 +30,27 @@ public class Ct0504 {
         Stack<Integer> postfix = new Stack<>();
 
         for (char c : s.toCharArray()) {
-            int tmp = 0;
-            if (c=='+') {
-                int b = postfix.pop();
-                int a = postfix.pop();
-                tmp = a+b;
-            } else if (c=='-') {
-                int b = postfix.pop();
-                int a = postfix.pop();
-                tmp = a-b;
-            } else if (c=='*') {
-                int b = postfix.pop();
-                int a = postfix.pop();
-                tmp = a*b;
-            } else if (c=='/') {
-                int b = postfix.pop();
-                int a = postfix.pop();
-                tmp = a/b;
+            if (Character.isDigit(c)) {
+                postfix.push(c-48);
             } else {
-                tmp = Integer.parseInt(String.valueOf(c));
+                if (c=='+') {
+                    int rt = postfix.pop();
+                    int lt = postfix.pop();
+                    postfix.push(lt + rt);
+                } else if (c=='-') {
+                    int rt = postfix.pop();
+                    int lt = postfix.pop();
+                    postfix.push(lt - rt);
+                } else if (c=='*') {
+                    int rt = postfix.pop();
+                    int lt = postfix.pop();
+                    postfix.push(lt * rt);
+                } else if (c=='/') {
+                    int rt = postfix.pop();
+                    int lt = postfix.pop();
+                    postfix.push(lt / rt);
+                }
             }
-            postfix.push(tmp);
         }
         answer = postfix.pop();
         return answer;
