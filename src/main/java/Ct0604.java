@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Ct0604 {
@@ -33,22 +34,25 @@ public class Ct0604 {
 
      */
     public int[] solution(int s, int n, int[] arr) {
+        /*
+         * 1. cache s 사이즈 배열 생성
+         * 2. 뒤로 하나씩 밀고 맨 앞에 새로운 값 넣기
+         * 3. cache내에 x가 있다면, 해당 값을 맨 앞으로 빼게 구성
+         */
         int[] cache = new int[s];
 
         for (int x : arr) {
-            int target = x, start = s-1;
-
-            for (int i=0;i<s;i++) {
-                if (cache[i] ==0) break;
+            int pos = s-1;
+            for (int i = 0;i<s;i++) {
                 if (x==cache[i]) {
-                    start = i;
+                    pos = i;
                     break;
                 }
             }
-            for (int j=start;j>0;j--) {
-                cache[j] = cache[j-1];
+            for (int i = pos-1;i>=0;i--) {
+                cache[i+1] = cache[i];
             }
-            cache[0] = target;
+            cache[0]= x;
         }
 
         return cache;

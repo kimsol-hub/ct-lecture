@@ -24,18 +24,15 @@ public class Ct0603 {
      */
     public int[] solution(int n, int[] arr) {
         /* 두번째 자리부터 앞을 탐색 앞자리가 더 크면 오른쪽으로 해당 값 밈 */
-        int lt = 1;
-        while (lt<n) {
-            int target = arr[lt], lastIdx = lt;
-            for (int i = lt-1;i>=0;i--) {
-                if (target < arr[i]) {
-                    lastIdx = i;
-                    arr[i+1]= arr[i];
-                } else break;
 
+        for (int i = 1; i<n; i++) {
+            int tmp = arr[i], j;
+            for (j = i-1;j>=0;j--) {
+                if (tmp < arr[j]) {
+                    arr[j+1]= arr[j];
+                } else break;
             }
-            arr[lastIdx]= target;
-            lt++;
+            arr[j+1] = tmp;
         }
 
         return arr;
