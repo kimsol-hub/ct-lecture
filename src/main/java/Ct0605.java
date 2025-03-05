@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-import java.util.Scanner;
+import java.util.*;
 
 public class Ct0605 {
     /**
@@ -31,13 +28,23 @@ public class Ct0605 {
      */
     public String solution(int n, int[] arr) {
         String answer = "U";
-        List<Integer> list = new ArrayList<>();
+        //1안 O(n)
+        /*Map<Integer, Integer> map = new HashMap<>();
         for (int x : arr) {
-            if (list.contains(x)) {
+            if (map.getOrDefault(x, 0) == 0) {
                 answer = "D";
                 break;
             }
-            list.add(x);
+            map.put(x, 1);
+        }*/
+
+        //2안 O(nlogN)
+        Arrays.sort(arr);
+        for (int i=1;i<n;i++) {
+            if (arr[i-1] == arr[i]) {
+                answer = "D";
+                break;
+            }
         }
 
         return answer;
