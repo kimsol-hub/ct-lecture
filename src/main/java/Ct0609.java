@@ -32,35 +32,32 @@ public class Ct0609 {
      17
 
      */
-    public int solution(int n, int m, int[] arr, int sum) {
-        /* 결정알고리즘 m개로 쪼갰을 때 최대한 비슷하면서 최적값 찾기
-        *  최소값은 배열 내의 최소값, 최대값은 전체합에서 최소값-1로 가정
-        *  mid = lt와 rt의 중간값
-        *  mid를 기준으로 값을 더하면서 몇 번 나눴는지 체크 & 각 합의 최대값 구함
-        *  cnt <=m 의 경우 더 작은 값을 탐색하도록 rt = mid-1, cnt > m의 경우 더 큰 값을 탐색하도록 lt = mid+1 로 나눠서 진행
-        *  lt<=rt를 기준으로 탐색
-        *  -- 못 품. 다른 사람 알고리즘 참고
+    public int cntDvd(int capacity, int[] arr) {
+        int cnt = 1;
+        int sum = 0;
+        for (int x : arr) {
+            sum += x;
+            if (sum > capacity) {
+                cnt++;
+                sum=x;
+            }
+        }
+        return cnt;
+    }
+    public int solution(int n, int m, int[] arr) {
+        /*
         * */
-        int answer = Integer.MAX_VALUE, mid = 0;
-        int lt = 0, rt = sum;
-
+        int answer = 0, mid = 0;
+        int lt = 0, rt = Arrays.stream(arr).sum();
 
         while (lt <= rt) {
             mid = (lt + rt) /2;
-            int max = 0, tmpSum = 0, cnt = 1;
-            for (int i = 0; i<n; i++) {
-                if (tmpSum + arr[i] > mid) {
-                    if (tmpSum > max) max = tmpSum;
-                    tmpSum = arr[i];
-                    cnt++;
-                } else tmpSum += arr[i];
-            }
-            if (tmpSum > max) max = tmpSum;
+            int cnt = cntDvd(mid, arr);
             if (cnt <= m) {
-                answer = Math.min(max, answer);
+                answer = mid;
                 rt = mid-1;
-            } else if (cnt > m) {
-                lt = mid +1;
+            } else {
+                lt = mid+1;
             }
         }
 
@@ -72,12 +69,10 @@ public class Ct0609 {
         int n = kb.nextInt();
         int m = kb.nextInt();
         int[] arr = new int[n];
-        int sum = 0;
         for (int i = 0;i<n;i++) {
             arr[i] = kb.nextInt();
-            sum += arr[i];
         }
         Ct0609 main = new Ct0609();
-        System.out.println(main.solution(n, m, arr, sum));
+        System.out.println(main.solution(n, m, arr));
     }
 }

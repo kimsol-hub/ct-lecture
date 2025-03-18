@@ -39,13 +39,15 @@ public class Ct0606 {
 
      */
     public List<Integer> solution(int n, int[] arr) {
-        /* 오름차순 정렬에서 벗어난 두 인덱스 찾기 */
+        /* 오름차순 정렬에서 벗어난 두 인덱스 찾기
+        * 배열.clone() 기억하기
+        * */
         List<Integer> answer = new ArrayList<>();
-        int[] originArr = Arrays.copyOf(arr, arr.length);
-        Arrays.sort(arr);
+        int[] tmp = arr.clone();
+        Arrays.sort(tmp);
 
         for (int i = 0;i<n;i++) {
-            if (arr[i] != originArr[i]) answer.add(i+1);
+            if (arr[i] != tmp[i]) answer.add(i+1);
         }
         return answer;
     }

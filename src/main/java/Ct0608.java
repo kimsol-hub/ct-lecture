@@ -30,12 +30,12 @@ public class Ct0608 {
         Arrays.sort(arr);
 
         int left = 0, right = n-1;
-        while(left >= 0 && right < n) {
+        while(left <= right) {
             int mid = (left + right)/2;
             if (arr[mid] > m) {
-                right = mid;
+                right = mid-1;
             } else if (arr[mid] < m) {
-                left = mid;
+                left = mid+1;
             } else {
                 answer = mid+1;
                 break;

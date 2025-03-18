@@ -1,5 +1,16 @@
 import java.util.*;
 
+class Point implements Comparable<Point> {
+    public int x, y;
+
+    public Point() {
+    }
+    @Override
+    public int compareTo(Point o) {
+        if (this.x == o.x) return this.y - o.y;
+        else return this.x - o.x;
+    }
+}
 public class Ct0607 {
     /**
 
@@ -31,35 +42,26 @@ public class Ct0607 {
      3 6
 
      */
-    public int[][] solution(int n, int[][] arr) {
+
+    public Point[] solution(int n, Point[] arr) {
         /* x,y좌표 정렬 */
-        List<Integer> answer = new ArrayList<>();
-
-        Arrays.sort(arr, new Comparator<int[]>() {
-            @Override
-            public int compare(int[] o1, int[] o2) {
-                if (o1[0]==o2[0]) {
-                    return o1[1]-o2[1];
-                } else {
-                    return o1[0]-o2[0];
-                }
-            }
-        });
-
+        Arrays.sort(arr);
         return arr;
     }
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         int n = kb.nextInt();
-        int[][] arr = new int[n][2];
+        Point[] arr = new Point[n];
         for (int i = 0;i<n;i++) {
-            arr[i][0] = kb.nextInt();
-            arr[i][1] = kb.nextInt();
+            Point p = new Point();
+            p.x = kb.nextInt();
+            p.y = kb.nextInt();
+            arr[i] = p;
         }
         Ct0607 main = new Ct0607();
-        for (int[] x : main.solution(n, arr)) {
-            System.out.println(x[0] + " " + x[1]);
+        for (Point x : main.solution(n, arr)) {
+            System.out.println(x.x + " " + x.y);
         }
 
     }
