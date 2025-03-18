@@ -17,10 +17,17 @@ public class Ct0702 {
      1011
 
      */
+    public void DFS(int n) {
+        if (n==0) return;
+        else {
+            DFS(n/2);
+            System.out.print(n%2);
+        }
+    }
     public void solution(int n) {
         /* 2진수 변환 */
-        if (n>1) solution(n/2);
-        System.out.print(n%2);
+        DFS(n);
+
     }
 
     public static void main(String[] args) {

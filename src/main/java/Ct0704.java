@@ -19,23 +19,25 @@ public class Ct0704 {
      1 1 2 3 5 8 13 21 34 55
 
      */
-    public void solution(int n, int cnt, int a, int b) {
-        /* 피보나치수열 구하기 */
-        if (cnt < 2) {
-            System.out.print("1 ");
-            solution(n, ++cnt, a, b);
-        }
-        else if (cnt < n) {
-            System.out.print(a+b + " ");
-            solution(n, ++cnt, b, a+b);
-        }
+    static int[] fibo;
+    public int DFS(int n) {
+        if (fibo[n]>0) return fibo[n];
+        if (n==1 || n==2) return fibo[n]=1;
+        return fibo[n]=DFS(n-2) + DFS(n-1);
+    }
 
+    public void solution(int n) {
+        /* 피보나치수열 구하기 */
+        for (int i=1;i<=n;i++) {
+            System.out.print(DFS(i)+ " ");
+        }
     }
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         int n = kb.nextInt();
+        fibo = new int[n+1];
         Ct0704 main = new Ct0704();
-        main.solution(n, 0, 1, 1);
+        main.solution(n);
     }
 }

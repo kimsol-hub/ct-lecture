@@ -17,16 +17,15 @@ public class Ct0703 {
      120
 
      */
-    public int solution(int n) {
-        /* N팩토리얼 구하기 */
-        if (n>1) return n*solution(n-1);
-        return n;
+    public int DFS(int n) {
+        if (n==1) return 1;
+        else return n*DFS(n-1);
     }
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         int n = kb.nextInt();
         Ct0703 main = new Ct0703();
-        System.out.print(main.solution(n)) ;
+        System.out.print(main.DFS(n)) ;
     }
 }

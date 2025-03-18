@@ -17,10 +17,16 @@ public class Ct0701 {
      1 2 3
 
      */
+    public void DFS(int n) {
+        if (n==0) return;
+        else {
+            DFS(n-1);
+            System.out.print(n + " ");
+        }
+    }
     public void solution(int n) {
         /* 1부터 n까지 출력, 재귀 사용 */
-        if (n>1) solution(n-1);
-        System.out.print(n + " ");
+        DFS(n);
     }
 
     public static void main(String[] args) {
