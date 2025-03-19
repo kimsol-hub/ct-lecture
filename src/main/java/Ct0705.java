@@ -44,87 +44,56 @@ public class Ct0705 {
 
     /*전위*/
     private void printNode(Node node) {
-        System.out.print(node.getData() + " ");
-        if (node.getLeft() != null) {
-            printNode(node.getLeft());
-        }
-        if (node.getRight() != null) {
-            printNode(node.getRight());
+        if (node == null) return;
+        else {
+            System.out.print(node.data + " ");
+            printNode(node.left);
+            printNode(node.right);
         }
     }
 
     /*왼뿌오*/
     private void printMidNode(Node node) {
-
-        if (node.getLeft() != null) {
-            printMidNode(node.getLeft());
-        }
-        System.out.print(node.getData() + " ");
-        if (node.getRight() != null) {
-            printMidNode(node.getRight());
+        if (node == null) return;
+        else {
+            printMidNode(node.left);
+            System.out.print(node.data + " ");
+            printMidNode(node.right);
         }
     }
 
+    /*왼오뿌*/
     private void printEndNode(Node node) {
-
-        if (node.getLeft() != null) {
-            printEndNode(node.getLeft());
+        if (node == null) return;
+        else {
+            printEndNode(node.left);
+            printEndNode(node.right);
+            System.out.print(node.data + " ");
         }
-
-        if (node.getRight() != null) {
-            printEndNode(node.getRight());
-        }
-        System.out.print(node.getData() + " ");
     }
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
 
-        Node node = new Node(1, new Node(2), new Node(3));
-        Node leftNode = node.getLeft();
-        leftNode.setLeft(new Node(4));
-        leftNode.setRight(new Node(5));
-
-        Node rightNode = node.getRight();
-        rightNode.setLeft(new Node(6));
-        rightNode.setRight(new Node(7));
+        Node node = new Node(1);
+        node.left = new Node(2);
+        node.right = new Node(3);
+        node.left.left = new Node(4);
+        node.left.right = new Node(5);
+        node.right.left = new Node(6);
+        node.right.right = new Node(7);
 
         Ct0705 main = new Ct0705();
         main.solution(node);
     }
     static class Node {
         int data;
-        Node left;
-        Node right;
+        Node left,right;
 
         public Node(int i) {
             data = i;
-        }
-
-        public Node(int i, Node left, Node right) {
-            data = i;
-            this.left = left;
-            this.right = right;
-        }
-
-        public void setLeft(Node left) {
-            this.left = left;
-        }
-
-        public void setRight(Node right) {
-            this.right = right;
-        }
-
-        public Node getLeft() {
-            return left;
-        }
-
-        public Node getRight() {
-            return right;
-        }
-
-        public int getData() {
-            return data;
+            this.left = null;
+            this.right = null;
         }
     }
 }

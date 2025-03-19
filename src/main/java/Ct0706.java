@@ -1,8 +1,6 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class Ct0706 {
     /**
@@ -29,40 +27,31 @@ public class Ct0706 {
      3
 
      */
-    public void solution(int num) {
-        int[] arr = new int[num];
-        for (int i = 0;i<num;i++) {
-            arr[i] = i+1;
-        }
-        for (int i = num; i>0;i--) {
-            partSet(arr, i, 0, new ArrayList<Integer>());
-        }
+    static int[] checkVal;
+    static int n;
 
-    }
-
-    private void partSet(int[] arr, int partCnt, int now, List<Integer> answer) {
-        for (int i = now;i<arr.length;i++) {
-            answer.add(arr[i]);
-            now++;
-            if (partCnt == answer.size()) {
-                for (int j = 0; j<answer.size();j++) {
-                    System.out.print(answer.get(j) + " ");
-                }
-                System.out.println();
+    private void DFS(int now) {
+        if (now==n+1) {
+            String answer = "";
+            for (int i = 1; i<=n;i++) {
+                if (checkVal[i]==1) answer += i + " ";
             }
-            partSet(arr, partCnt, now, answer);
-            answer.remove(Integer.valueOf(arr[i]));
-
+            System.out.println(answer);
         }
-
+        else {
+            checkVal[now] = 1;
+            DFS(now+1);
+            checkVal[now] = 0;
+            DFS(now+1);
+        }
     }
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
 
-        int n = kb.nextInt();
-
+        n = kb.nextInt();
+        checkVal = new int[n+1];
         Ct0706 main = new Ct0706();
-        main.solution(n);
+        main.DFS(1);
     }
 }
