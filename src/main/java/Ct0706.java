@@ -36,7 +36,9 @@ public class Ct0706 {
             for (int i = 1; i<=n;i++) {
                 if (checkVal[i]==1) answer += i + " ";
             }
-            System.out.println(answer);
+            if (answer.length() > 0) {
+                System.out.println(answer);
+            }
         }
         else {
             checkVal[now] = 1;

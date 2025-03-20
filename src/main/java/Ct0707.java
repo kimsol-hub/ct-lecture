@@ -1,6 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Ct0707 {
     /**
@@ -13,77 +11,47 @@ public class Ct0707 {
      레벨 탐색 순회 출력 : 1 2 3 4 5 6 7
 
      */
-    public void solution(Node node) {
-        List<Node> parent = new ArrayList<>();
-        parent.add(node);
-        levelPrint(parent);
-    }
 
-    private void levelPrint(List<Node> nodeList) {
-        List<Node> children = new ArrayList<>();
-        for (Node node : nodeList) {
-            System.out.print(node.getData() + " ");
-
-            if (node.getLeft() != null) {
-                children.add(node.getLeft());
+    private void BFS(Node node) {
+        Queue<Node> q = new LinkedList<>();
+        q.offer(node);
+        int L = 0;
+        while (! q.isEmpty()) {
+            int size = q.size();
+            System.out.print(L + " : ");
+            for (int i =0;i<size;i++) {
+                Node n = q.poll();
+                System.out.print(n.data + " ");
+                if (n.left != null) q.offer(n.left);
+                if (n.right != null) q.offer(n.right);
             }
-            if (node.getRight() != null) {
-                children.add(node.getRight());
-            }
-        }
-        if (children.size()>0) {
-            levelPrint(children);
+            System.out.println();
+            L++;
         }
     }
 
     public static void main(String[] args) {
-        Node node = new Node(1, new Node(2), new Node(3));
-        Node leftNode = node.getLeft();
-        leftNode.setLeft(new Node(4));
-        leftNode.setRight(new Node(5));
-
-        Node rightNode = node.getRight();
-        rightNode.setLeft(new Node(6));
-        rightNode.setRight(new Node(7));
+        Node node = new Node(1);
+        node.left = new Node(2);
+        node.right = new Node(3);
+        node.left.left = new Node(4);
+        node.left.right = new Node(5);
+        node.right.left = new Node(6);
+        node.right.right = new Node(7);
 
         Ct0707 main = new Ct0707();
-        main.solution(node);
+//        main.solution(node);
+        main.BFS(node);
     }
 
     static class Node {
         int data;
-        Node left;
-        Node right;
-
+        Node left,right;
 
         public Node(int i) {
             data = i;
-        }
-
-        public Node(int i,Node left, Node right) {
-            data = i;
-            this.left = left;
-            this.right = right;
-        }
-
-        public void setLeft(Node left) {
-            this.left = left;
-        }
-
-        public void setRight(Node right) {
-            this.right = right;
-        }
-
-        public Node getLeft() {
-            return left;
-        }
-
-        public Node getRight() {
-            return right;
-        }
-
-        public int getData() {
-            return data;
+            this.left = null;
+            this.right = null;
         }
     }
 }

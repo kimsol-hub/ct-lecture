@@ -32,13 +32,12 @@ public class Ct0610 {
 
      */
     public int cntPossible(int distance, int[] arr) {
-        int cnt= 1, beforeLocation=arr[0], now=0;
+        int cnt= 1, ep=arr[0];
 
         for (int x: arr) {
-            now = x - beforeLocation;
-            if (distance <= now) {
+            if (distance <= x-ep) {
                 cnt++;
-                beforeLocation = x;
+                ep = x;
             }
         }
         return cnt;
@@ -50,15 +49,14 @@ public class Ct0610 {
          * */
         int answer = 0;
         Arrays.sort(arr);
-        int lt = 0, rt = arr[n-1] - arr[0];
+        int lt = 1, rt = arr[n-1];
 
         while (lt <= rt) {
             int mid = (lt+rt)/2; //mid의 최대값 구하기
-            int cnt = cntPossible(mid, arr);
-            if (cnt >= c) {
-                answer = Math.max(mid, answer) ;
+            if (cntPossible(mid, arr) >= c) {
+                answer = mid;
                 lt = mid +1;
-            } else if (cnt < c) {
+            } else  {
                 rt = mid - 1;
             }
         }
