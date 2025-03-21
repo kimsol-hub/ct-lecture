@@ -1,4 +1,6 @@
 
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Scanner;
 
 public class Ct0708 {
@@ -13,8 +15,7 @@ public class Ct0708 {
      하세요.
 
      ▣ 입력설명
-     첫 번째 줄에 현수의 위치 S와 송아지의 위치 E가 주어진다. 직선의 좌표 점은 1부터 10,000
-     까지이다.
+     첫 번째 줄에 현수의 위치 S와 송아지의 위치 E가 주어진다. 직선의 좌표 점은 1부터 10,000까지이다.
      ▣ 출력설명
      점프의 최소횟수를 구한다. 답은 1이상이며 반드시 존재합니다.
 
@@ -29,32 +30,33 @@ public class Ct0708 {
      5
 
      */
-    public int solution(int s, int e) {
+    int[] move = new int[]{-1, 1, 5};
+    int[] ch;
+    public int BFS(int s, int e) {
         /* 점프 최소 횟수 구하기 일직선상 존재, 앞1, 뒤1, 앞5 이동 가능
-        * 원하는 최종합 e-s
-        * +1, -1, +5 를 최소로 조합해서 구해야 함
+        * 원하는 최종합 e
         * */
-        int dif = e-s, answer = 0;
-
-        while (dif != 0) {
-            if (dif > 5) {
-                answer += dif/5;
-                dif = dif%5;
+        int L = 0;
+        ch = new int[10001];
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(s);
+        ch[s] = 1;
+        while (! q.isEmpty()) {
+            int size = q.size();
+            for (int i=0; i<size; i++) {
+                int x = q.poll();
+                for (int m : move) {
+                    int nx = x + m;
+                    if (nx == e) return L+1;
+                    if (nx > 0 && nx <= 10000 && ch[nx]==0) {
+                        q.offer(nx);
+                        ch[nx] = 1;
+                    }
+                }
             }
-            if (dif < 0) {
-                answer -= dif;
-                dif = 0;
-            } else if (dif <= 3) {
-                answer += dif;
-                dif =0;
-            } else {
-                answer ++;
-                int x = dif - 5;
-                answer -=x;
-                dif = 0;
-            }
+            L++;
         }
-        return answer;
+        return 0;
     }
 
     public static void main(String[] args) {
@@ -63,7 +65,7 @@ public class Ct0708 {
         int e = kb.nextInt();
 
         Ct0708 main = new Ct0708();
-        System.out.println(main.solution(s, e));
+        System.out.println(main.BFS(s, e));
     }
 
 

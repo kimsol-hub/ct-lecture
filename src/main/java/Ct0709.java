@@ -1,6 +1,4 @@
 
-import java.util.Scanner;
-
 public class Ct0709 {
     /**
 
@@ -16,24 +14,19 @@ public class Ct0709 {
 
      */
     public int DFS(Node n, int depth) {
-        if (n.getLeft() == null || n.getRight() == null) {
+        if (n.left == null && n.right == null) {
             return depth;
         } else {
-            int leftDepth = DFS(n.getLeft(), depth+1);
-            int rightDepth =  DFS(n.getRight(), depth+1);
-            return Math.min(leftDepth, rightDepth);
+            return Math.min(DFS(n.left, depth+1), DFS(n.right, depth+1));
         }
     }
 
     public static void main(String[] args) {
-        Node node = new Node(1, new Node(2), new Node(3));
-        Node leftNode = node.getLeft();
-        leftNode.setLeft(new Node(4));
-        leftNode.setRight(new Node(5));
-//        Node childLeftNode = leftNode.getLeft();
-//        childLeftNode.setLeft(new Node(6));
-//        childLeftNode.setRight(new Node(7));
-
+        Node node = new Node(1);
+        node.left = new Node(2);
+        node.right = new Node(3);
+        node.left.left = new Node(4);
+        node.left.right = new Node(5);
 
         Ct0709 main = new Ct0709();
         System.out.println(main.DFS(node, 0));
@@ -47,32 +40,7 @@ public class Ct0709 {
 
         public Node(int i) {
             data = i;
-        }
-
-        public Node(int i, Node left, Node right) {
-            data = i;
-            this.left = left;
-            this.right = right;
-        }
-
-        public void setLeft(Node left) {
-            this.left = left;
-        }
-
-        public void setRight(Node right) {
-            this.right = right;
-        }
-
-        public Node getLeft() {
-            return left;
-        }
-
-        public Node getRight() {
-            return right;
-        }
-
-        public int getData() {
-            return data;
+            left = right = null;
         }
     }
 }
