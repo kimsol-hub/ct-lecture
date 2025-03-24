@@ -28,27 +28,23 @@ public class Ct0801 {
 
      */
     static int[] arr;
-    static int[] ch;
-    static int n;
+    static int n, total;
+    static boolean flag = false;
 
     static String answer;
-    public void DFS(int now) {
+    public void DFS(int now, int sum) {
         /* 두 부분집합 합이 같은 경우가 있으면 YES */
+        if (total/2 < sum) return;
+        if (flag) return;
         if (now == n) {
-            int sum1 = 0, sum2 =0;
-            for (int i=0; i<n;i++) {
-                if (ch[i]==1) sum1 += arr[i];
-                else sum2 += arr[i];
+            if (total-sum==sum) {
+                flag = true;
+                answer = "YES";
             }
-            if (sum1==sum2) answer = "YES";
         }
         else {
-            if (ch[now]==0) {
-                ch[now] = 1;
-                DFS(now+1);
-                ch[now] = 0;
-                DFS(now+1);
-            }
+            DFS(now+1, sum+arr[now]);
+            DFS(now+1, sum);
         }
     }
 
@@ -56,13 +52,13 @@ public class Ct0801 {
         Scanner kb = new Scanner(System.in);
         n = kb.nextInt();
         arr = new int[n];
-        ch = new int[n];
         answer = "NO";
         for (int i=0;i<n;i++) {
             arr[i] = kb.nextInt();
         }
+        total = Arrays.stream(arr).sum();
         Ct0801 main = new Ct0801();
-        main.DFS(0);
+        main.DFS(0, 0);
         System.out.println(answer);
     }
 }

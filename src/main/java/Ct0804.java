@@ -30,15 +30,19 @@ public class Ct0804 {
      */
     static int n;
     static int m;
+    static int[] answer;
 
-    public void DFS(int cnt, String arr) {
+    public void DFS(int cnt) {
         /* M개를 중복 허용해서 뽑는 모든 경우의 수 (순열) */
         if (cnt == m) {
-            System.out.println(arr);
-            return;
+            for (int x : answer) {
+                System.out.print(x + " ");
+            }
+            System.out.println();
         } else {
             for (int i=1; i<=n; i++) {
-                DFS(cnt+1, arr+ i + " ");
+                answer[cnt] = i;
+                DFS(cnt+1);
             }
         }
     }
@@ -48,8 +52,9 @@ public class Ct0804 {
         n = kb.nextInt();
         m = kb.nextInt();
 
+        answer = new int[m];
         Ct0804 main = new Ct0804();
-        main.DFS(0, "");
+        main.DFS(0);
 
     }
 }

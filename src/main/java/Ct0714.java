@@ -39,34 +39,55 @@ public class Ct0714 {
      */
     static List<List<Integer>> list;
     static int[] ch;
-    public int BFS(int target) {
-        /* 최소 간선수 각각 출력 */
-        int answer = 0;
+    static int[] moves;
+//    public int BFS(int target) {
+//        /* 최소 간선수 각각 출력 */
+//        int answer = 0;
+//        Queue<Integer> q = new LinkedList<>();
+//        q.add(1);
+//
+//        while (! q.isEmpty()) {
+//            int size = q.size();
+//
+//            for (int i=0; i<size;i++) {
+//                int x = q.poll();
+//                if (x==target) return answer;
+//                if (ch[x]==0) {
+//                    ch[x] =1;
+//                    q.addAll(list.get(x));
+//                }
+//            }
+//            answer++;
+//        }
+//       return answer;
+//    }
+
+    public void BFS(int v) {
         Queue<Integer> q = new LinkedList<>();
-        q.add(1);
-
+        q.add(v);
+        ch[v] = 1;
+        moves[v] = 0;
         while (! q.isEmpty()) {
-            int size = q.size();
-
-            for (int i=0; i<size;i++) {
-                int x = q.poll();
-                if (x==target) return answer;
-                if (ch[x]==0) {
-                    ch[x] =1;
-                    q.addAll(list.get(x));
+            int len = q.size();
+            for (int i=0; i<len; i++) {
+                int cv = q.poll();
+                for (int nv: list.get(cv)) {
+                    if (ch[nv]==0) {
+                        ch[nv] = 1;
+                        moves[nv] = moves[cv]+1;
+                        q.add(nv);
+                    }
                 }
             }
-            answer++;
         }
-       return answer;
     }
-
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         int n = kb.nextInt();
         int m = kb.nextInt();
         list = new ArrayList<>();
         ch = new int[n+1];
+        moves = new int[n+1];
         for (int i =0;i<=n;i++) {
             list.add(new ArrayList<Integer>());
         }
@@ -77,10 +98,9 @@ public class Ct0714 {
             target.add(col);
         }
         Ct0714 main = new Ct0714();
-
+        main.BFS(1);
         for (int i=2; i<=n; i++) {
-            ch = new int[n+1];
-            System.out.println(i + " : " + main.BFS(i));
+            System.out.println(i +" : "+ moves[i]);
         }
     }
 

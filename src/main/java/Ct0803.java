@@ -28,32 +28,17 @@ public class Ct0803 {
      41
 
      */
-    static int n;
-    static int m;
-    static int[][] arr;
-    static int[] ch;
-    static int answer;
+    static int n, m, answer =0;
+    static int[] a, b;
 
-    public void DFS(int now) {
+    public void DFS(int now, int score, int time) {
         /* 제한 시간 내 얻을 수 있는 최대 점수 */
+        if (time > m) return;
         if (now == n) {
-            int time = 0;
-            int score = 0;
-            for (int i=0; i<n; i++) {
-                if (time > m) return;
-                if (ch[i]==1) {
-                    score += arr[i][0];
-                    time += arr[i][1];
-                }
-            }
             if (time <= m) answer = Math.max(answer, score);
         } else {
-            if (ch[now]==0) {
-                ch[now] = 1;
-                DFS(now+1);
-                ch[now] = 0;
-                DFS(now+1);
-            }
+            DFS(now+1, score+a[now], time+b[now]);
+            DFS(now+1, score, time);
         }
     }
 
@@ -61,16 +46,16 @@ public class Ct0803 {
         Scanner kb = new Scanner(System.in);
         n = kb.nextInt();
         m = kb.nextInt();
-        arr = new int[n][2];
-        ch = new int[n];
+        a = new int[n];
+        b = new int[n];
         answer = 0;
         /* 점수/시간 으로 각 값이 주어짐 */
         for (int i = 0;i < n; i++) {
-            arr[i][0] = kb.nextInt();
-            arr[i][1] = kb.nextInt();
+            a[i] = kb.nextInt();
+            b[i] = kb.nextInt();
         }
         Ct0803 main = new Ct0803();
-        main.DFS(0);
+        main.DFS(0, 0, 0);
         System.out.println(answer);
     }
 }

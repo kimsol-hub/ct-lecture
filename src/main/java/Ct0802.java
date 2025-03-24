@@ -30,26 +30,17 @@ public class Ct0802 {
 
      */
     static int[] arr;
-    static int[] ch;
-    static int n;
-    static int c;
-
-    static int answer;
-    public void DFS(int now) {
+    static int n, c;
+    static int answer=0;
+    public void DFS(int now, int sum) {
+        if (sum > c) return;
         /* 태울 수 있는 제일 무거운 무게 */
         if (now == n) {
-            int total = 0;
-            for (int i=0;i<n;i++) {
-                if (ch[i]==1) total += arr[i];
-            }
-            if (total < c) answer = Math.max(answer, total);
+            answer = Math.max(answer, sum);
+
         } else {
-            if (ch[now]==0) {
-                ch[now]=1;
-                DFS(now+1);
-                ch[now]=0;
-                DFS(now+1);
-            }
+            DFS(now+1, sum + arr[now]);
+            DFS(now+1, sum);
         }
     }
 
@@ -58,13 +49,11 @@ public class Ct0802 {
         c = kb.nextInt();
         n = kb.nextInt();
         arr = new int[n];
-        ch = new int[n];
-        answer = 0;
         for (int i=0;i<n;i++) {
             arr[i] = kb.nextInt();
         }
         Ct0802 main = new Ct0802();
-        main.DFS(0);
+        main.DFS(0, 0);
         System.out.println(answer);
     }
 }
