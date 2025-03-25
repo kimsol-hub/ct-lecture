@@ -32,17 +32,20 @@ public class Ct0806 {
     static int n;
     static int m;
     static int[] arr;
+    static int[] answer;
     static int[] ch;
 
-    public void DFS(int cnt, String answer) {
+    public void DFS(int cnt) {
         /* M번 뽑아 나열하는 방법 // 출력순서는 사전순으로 오름차순 */
         if (m==cnt) {
-            System.out.println(answer);
+            for (int x: answer) System.out.print(x + " ");
+            System.out.println();
         } else {
             for (int i=0; i<n; i++) {
                 if (ch[i]==0) {
                     ch[i] = 1;
-                    DFS(cnt+1, answer + arr[i]+ " ");
+                    answer[cnt] = arr[i];
+                    DFS(cnt+1);
                     ch[i] = 0;
                 }
             }
@@ -55,10 +58,11 @@ public class Ct0806 {
         m = kb.nextInt();
         ch = new int[n];
         arr = new int[n];
+        answer = new int[m];
         for (int i=0; i<n; i++) {
             arr[i] = kb.nextInt();
         }
         Ct0806 main = new Ct0806();
-        main.DFS(0, "");
+        main.DFS(0);
     }
 }

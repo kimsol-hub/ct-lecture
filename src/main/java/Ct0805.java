@@ -1,6 +1,4 @@
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.Scanner;
+import java.util.*;
 
 public class Ct0805 {
     /**
@@ -26,8 +24,10 @@ public class Ct0805 {
      3
 
      */
-    static int[] coins;
+//    static int[] coins;
+    static Integer[] coins;
     static int[] ch;
+    static int m, answer = Integer.MAX_VALUE;
 
     public int BFS(int target) {
         /* 거스름돈 가장 적은 동전 개수로 반환 */
@@ -52,17 +52,40 @@ public class Ct0805 {
         }
         return 0;
     }
+    public void DFS(int L, int total) {
+        if (answer < L) return;
+        if (total > m) return;
+        if (total == m) {
+            answer = Math.min(L, answer);
+        }
+        else {
+            for (int x: coins) {
+                DFS(L+1, total+x);
+            }
+        }
+    }
+
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         int n = kb.nextInt();
-        coins = new int[n];
+//        coins = new int[n];
+//        for (int i=0; i<n; i++) {
+//            coins[i] = kb.nextInt();
+//        }
+//        int m = kb.nextInt();
+//
+//        Ct0805 main = new Ct0805();
+//        System.out.print(main.BFS(m));
+        coins = new Integer[n];
         for (int i=0; i<n; i++) {
             coins[i] = kb.nextInt();
         }
-        int m = kb.nextInt();
+        m = kb.nextInt();
 
+        Arrays.sort(coins, Collections.reverseOrder());
         Ct0805 main = new Ct0805();
-        System.out.print(main.BFS(m));
+        main.DFS(0, 0);
+        System.out.print(answer);
     }
 }
