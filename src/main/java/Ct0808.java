@@ -33,31 +33,26 @@ public class Ct0808 {
 
      */
     static int n, f;
-    static int[] answer, arr, ch;
-    static int[][] cb;
+    static int[] answer, b, ch;
+    static int[][] cb = new int[35][35];
     static boolean flag=false;
 
-    public void DFS(int cnt) {
+    public void DFS(int cnt, int sum) {
         /* 같은 레벨 내에선 전부 다른 숫자로 가정, 답 여러 개일 경우, 사전순 맨앞 출력
         * 3레벨일 경우,  a b c d 순으로 숫자가 있을 경우, 최상단 숫자 = 3C0 *a + 3C1*b + 3C2*c + 3C3*d  << 이거를 강의 보고 알았음. 파스칼 삼각형 규칙이라고 함.
         *  */
         if (flag) return;
         if (cnt == n) {
-            int total = 0;
-            for (int i=0; i<n; i++) {
-                total += getCombination(n-1, i) * answer[i];
-            }
-            if (total == f) {
+            if (sum == f) {
                 for (int x : answer) System.out.print(x+ " ");
-                System.out.println();
                 flag = true;
             }
         } else {
-            for (int i=0; i<n; i++) {
+            for (int i=1; i<=n; i++) {
                 if (ch[i]==0) {
                     ch[i] = 1;
-                    answer[cnt] = arr[i];
-                    DFS(cnt+1);
+                    answer[cnt] = i;
+                    DFS(cnt+1, sum + b[cnt]*answer[cnt]);
                     ch[i] = 0;
                 }
             }
@@ -65,25 +60,26 @@ public class Ct0808 {
     }
 
     public int getCombination(int n, int r) {
+        if (cb[n][r] > 0) return cb[n][r];
         if (n==r || r==0) return 1;
-        else {
-            if (cb[n][r] ==0) cb[n][r] = getCombination(n-1, r-1) + getCombination(n-1, r);
-            return cb[n][r];
-        }
+        else return cb[n][r] = getCombination(n-1, r-1) + getCombination(n-1, r);
     }
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         n = kb.nextInt();
         f = kb.nextInt();
-        cb = new int[n+1][n+1];
-        arr = new int[n];
-        ch = new int[n];
-        for (int i=1; i<=n; i++) {
-            arr[i-1] = i;
-        }
+        ch = new int[n+1];
+
+        b = new int[n];
+
         answer = new int[n];
         Ct0808 main = new Ct0808();
-        main.DFS(0);
+
+        for (int i=0; i<n; i++) {
+            b[i] = main.getCombination(n-1, i);
+        }
+        main.DFS(0, 0);
+
     }
 }

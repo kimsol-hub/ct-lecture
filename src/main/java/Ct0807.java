@@ -31,19 +31,19 @@ public class Ct0807 {
 
      */
     static int n, m;
-    static int[][] memories;
+    static int[][] memories = new int[35][35];
 
     public int DFS(int num, int r) {
         /* n개 중 m개 뽑는 조합 개수, 종료 시점 r=0, n==r >> 1임,
            이거 생각했는데 왜 적용을 못했는가 >> r==0은 생각 못해서..
         * (n-1)! (n-r)! (n-r-1)! r! (r-1)!
         * */
+        if (memories[num][r] > 0) return memories[num][r];
         if (r==0 || num==r) {
             return 1;
         }
         else {
-            if (memories[num][r]==0) memories[num][r] = DFS(num-1, r-1) + DFS(num-1, r);
-            return memories[num][r];
+            return memories[num][r] = DFS(num-1, r-1) + DFS(num-1, r);
         }
     }
 
@@ -52,7 +52,6 @@ public class Ct0807 {
         n = kb.nextInt();
         m = kb.nextInt();
 
-        memories = new int[n+1][m+1];
         Ct0807 main = new Ct0807();
 
         System.out.println(main.DFS(n, m));
