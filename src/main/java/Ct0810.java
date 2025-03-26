@@ -37,21 +37,20 @@ public class Ct0810 {
 
 
     static int answer=0;
-    static int[][] ch, miro;
+    static int[][] miro;
     static int[][] directions = new int[][]{{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
     public void DFS(int x, int y) {
         /* 기준 좌표의 동서남북 따져봐야 함 nx-1, ny | nx, ny-1 | nx+1, ny | nx, ny+1 */
-        if (x>6 || y>6) return;
-        if (x==6 && y==6) answer++;
+        if (x==7 && y==7) answer++;
         else {
             for (int i=0; i<4; i++) {
                 int nx = x + directions[i][0];
                 int ny = y + directions[i][1];
-                if (nx >= 0 && nx <=6 && ny >= 0 && ny <=6 && miro[nx][ny]==0 && ch[nx][ny] == 0) {
-                    ch[nx][ny] = 1;
+                if (nx >= 1 && nx <=7 && ny >= 1 && ny <=7 && miro[nx][ny]==0) {
+                    miro[nx][ny] = 1;
                     DFS(nx, ny);
-                    ch[nx][ny] = 0;
+                    miro[nx][ny] = 0;
                 }
             }
         }
@@ -59,16 +58,15 @@ public class Ct0810 {
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
-        miro = new int[7][7];
-        ch = new int[7][7];
-        for (int i=0; i<7; i++) {
-            for (int j=0; j<7; j++) {
+        miro = new int[8][8];
+        for (int i=1; i<8; i++) {
+            for (int j=1; j<8; j++) {
                 miro[i][j] = kb.nextInt();
             }
         }
         Ct0810 main = new Ct0810();
-        ch[0][0] = 1;
-        main.DFS(0, 0);
+        miro[1][1] = 1;
+        main.DFS(1, 1);
         System.out.println(answer);
     }
 }

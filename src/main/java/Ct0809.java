@@ -30,20 +30,17 @@ public class Ct0809 {
 
 
     static int n, m;
-    static int[] pm, ch;
+    static int[] pm;
 
-    public void DFS(int cnt, int nt) {
-        if (cnt==m) {
+    public void DFS(int L, int s) {
+        /* 어차피 s를 지정해줘서 중복될 일 X, ch 불필요. */
+        if (L==m) {
             for (int x: pm) System.out.print(x+ " ");
             System.out.println();
         } else {
-            for (int i=nt;i<=n;i++) {
-                if (ch[i]==0) {
-                    ch[i]=1;
-                    pm[cnt] = i;
-                    DFS(cnt+1, i+1);
-                    ch[i]=0;
-                }
+            for (int i=s;i<=n;i++) {
+                pm[L] = i;
+                DFS(L+1, i+1);
             }
         }
 
@@ -54,7 +51,6 @@ public class Ct0809 {
         n = kb.nextInt();
         m = kb.nextInt();
 
-        ch = new int[n+1];
         pm = new int[m];
         Ct0809 main = new Ct0809();
         main.DFS(0, 1);

@@ -37,7 +37,7 @@ public class Ct0811 {
 
      */
 
-    static int[][] ch, miro;
+    static int[][] miro;
     static int[][] directions = new int[][]{{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
     public int BFS(int x, int y) {
@@ -53,9 +53,9 @@ public class Ct0811 {
                 for (int j=0; j<4; j++) {
                     int nx = point[0] + directions[j][0];
                     int ny = point[1] + directions[j][1];
-                    if (nx >= 0 && nx <= 6 && ny >=0&& ny<=6 && miro[nx][ny]==0 && ch[nx][ny]==0) {
+                    if (nx >= 0 && nx <= 6 && ny >=0&& ny<=6 && miro[nx][ny]==0 ) {
                         if (nx==6 && ny==6) return L+1;
-                        ch[nx][ny]=1;
+                        miro[nx][ny]=1;
                         q.offer(new Integer[]{nx, ny});
                     }
                 }
@@ -68,14 +68,12 @@ public class Ct0811 {
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         miro = new int[7][7];
-        ch = new int[7][7];
         for (int i=0; i<7; i++) {
             for (int j=0; j<7; j++) {
                 miro[i][j] = kb.nextInt();
             }
         }
         Ct0811 main = new Ct0811();
-        ch[0][0] = 1;
         System.out.println(main.BFS(0, 0));
     }
 }
