@@ -54,13 +54,12 @@ public class Ct0812 {
         Queue<Integer[]> q = new LinkedList<>();
         Queue<Integer[]> tmp = new LinkedList<>();
 
-        for(int i=0; i<m; i++) {
-            for (int j=0; j<n; j++) {
+        for(int i=0; i<n; i++) {
+            for (int j=0; j<m; j++) {
                 if (boxes[i][j]==1)  q.offer(new Integer[]{i, j});
-                else if (boxes[i][j]==0) tmp.offer(new Integer[]{i, j});
+                if (boxes[i][j]==0) tmp.offer(new Integer[]{i, j});
             }
         }
-        if (tmp.size()==0) return 0;
         int L = 0;
         while (!q.isEmpty()) {
             int size = q.size();
@@ -69,7 +68,8 @@ public class Ct0812 {
                 for (int j=0; j<4; j++) {
                     int nx = point[0] + directions[j][0];
                     int ny = point[1] + directions[j][1];
-                    if (nx>=0 && nx<m && ny>=0 && ny<n && boxes[nx][ny]==0) {
+                    if (nx>=0 && nx<n && ny>=0 && ny<m && boxes[nx][ny]==0) {
+                        tmp.poll();
                         boxes[nx][ny] = 1;
                         q.offer(new Integer[]{nx, ny});
                     }
@@ -77,25 +77,17 @@ public class Ct0812 {
             }
             L++;
         }
-         tmp = new LinkedList<>();
-
-        for(int i=0; i<m; i++) {
-            for (int j=0; j<n; j++) {
-                if (boxes[i][j]==0) tmp.offer(new Integer[]{i, j});
-            }
-        }
-        if (tmp.size()==0) return L;
-
-        return -1;
+        if (tmp.size() >0) return -1;
+        return L-1;
     }
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         m = kb.nextInt();
         n = kb.nextInt();
-        boxes = new int[m][n];
-        for (int i=0; i<m; i++) {
-            for (int j=0; j<n; j++) {
+        boxes = new int[n][m];
+        for (int i=0; i<n; i++) {
+            for (int j=0; j<m; j++) {
                 boxes[i][j] = kb.nextInt();
             }
         }
