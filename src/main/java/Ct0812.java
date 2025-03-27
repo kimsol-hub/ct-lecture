@@ -45,39 +45,44 @@ public class Ct0812 {
 
      */
 
-    static int n, m;
+    static int n, m, left=0;
     static int[][] boxes;
     static int[][] directions = new int[][]{{-1, 0}, {0, -1}, {1, 0}, {0, 1}};
 
-    public int BFS() {
-        /* 정수 1은 익은 토마토, 정수 0은 익지 않은 토마토, 정수 -1은 토마토가 들어있지 않은 칸 | 모두 익을 때까지의 최소 날짜  nx-1, ny | nx, ny-1 | nx+1, ny | nx, ny+1 */
-        Queue<Integer[]> q = new LinkedList<>();
-        Queue<Integer[]> tmp = new LinkedList<>();
+    static Queue<Tomato> q;
 
-        for(int i=0; i<n; i++) {
-            for (int j=0; j<m; j++) {
-                if (boxes[i][j]==1)  q.offer(new Integer[]{i, j});
-                if (boxes[i][j]==0) tmp.offer(new Integer[]{i, j});
-            }
+    public static class Tomato {
+        int x, y;
+        public Tomato(int x, int y) {
+            this.x = x;
+            this.y = y;
         }
+    }
+    public int BFS() {
+        /* 정수 1은 익은 토마토, 정수 0은 익지 않은 토마토, 정수 -1은 토마토가 들어있지 않은 칸 | 모두 익을 때까지의 최소 날짜  nx-1, ny | nx, ny-1 | nx+1, ny | nx, ny+1
+        * time limit exceed 에러
+        * 큐에서 Integer[] 대신 Point 클래스 사용: 현재 코드에서 Integer[]를 사용해 위치를 저장하고 있지만, Point 클래스와 같은 사용자 정의 클래스를 사용하는 것이 성능 측면에서 더 좋을 수 있습니다. 이는 Java의 오토박싱 문제를 피할 수 있기 때문입니다.
+        * 이런 답변을 받고 Tomato class 추가 후 진행. 해결.
+        * */
+        if (left==0) return 0;
         int L = 0;
         while (!q.isEmpty()) {
             int size = q.size();
             for (int i=0; i<size; i++) {
-                Integer[] point = q.poll();
+                Tomato point = q.poll();
                 for (int j=0; j<4; j++) {
-                    int nx = point[0] + directions[j][0];
-                    int ny = point[1] + directions[j][1];
+                    int nx = point.x + directions[j][0];
+                    int ny = point.y + directions[j][1];
                     if (nx>=0 && nx<n && ny>=0 && ny<m && boxes[nx][ny]==0) {
-                        tmp.poll();
+                        left--;
                         boxes[nx][ny] = 1;
-                        q.offer(new Integer[]{nx, ny});
+                        q.offer(new Tomato(nx, ny));
                     }
                 }
             }
             L++;
         }
-        if (tmp.size() >0) return -1;
+        if (left >0) return -1;
         return L-1;
     }
 
@@ -86,9 +91,12 @@ public class Ct0812 {
         m = kb.nextInt();
         n = kb.nextInt();
         boxes = new int[n][m];
+        q = new LinkedList<>();
         for (int i=0; i<n; i++) {
             for (int j=0; j<m; j++) {
                 boxes[i][j] = kb.nextInt();
+                if (boxes[i][j]==1) q.offer(new Tomato(i, j));
+                if (boxes[i][j]==0) left++;
             }
         }
         Ct0812 main = new Ct0812();
