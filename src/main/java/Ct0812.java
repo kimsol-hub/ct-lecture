@@ -1,7 +1,13 @@
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Scanner;
-
+class Tomato {
+    int x, y;
+    public Tomato(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+}
 public class Ct0812 {
     /**
 
@@ -51,13 +57,6 @@ public class Ct0812 {
 
     static Queue<Tomato> q;
 
-    public static class Tomato {
-        int x, y;
-        public Tomato(int x, int y) {
-            this.x = x;
-            this.y = y;
-        }
-    }
     public int BFS() {
         /* 정수 1은 익은 토마토, 정수 0은 익지 않은 토마토, 정수 -1은 토마토가 들어있지 않은 칸 | 모두 익을 때까지의 최소 날짜  nx-1, ny | nx, ny-1 | nx+1, ny | nx, ny+1
         * time limit exceed 에러
