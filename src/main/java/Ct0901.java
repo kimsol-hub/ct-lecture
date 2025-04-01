@@ -60,8 +60,7 @@ public class Ct0901 {
             boolean flag = true;
 
             for (int j=i+1; j<n; j++) {
-                Person p = arr[j];
-                if (target.weight < p.weight) {
+                if (target.weight < arr[j].weight) {
                     flag = false;
                     break;
                 }

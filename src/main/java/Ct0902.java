@@ -1,6 +1,4 @@
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Scanner;
 
 public class Ct0902 {
@@ -32,6 +30,15 @@ public class Ct0902 {
      ▣ 출력예제 1
      3
 
+     ▣ 입력예제 2
+     3
+     3 3
+     1 3
+     2 3
+
+     ▣ 출력예제 2
+     2
+
      */
 
     static int n;
@@ -42,8 +49,8 @@ public class Ct0902 {
 
         @Override
         public int compareTo(Meeting o) {
-            if (this.startTime == o.startTime) return this.endTime - o.endTime;
-            return this.startTime - o.startTime;
+            if (this.endTime==o.endTime) return this.startTime-o.startTime;
+            return this.endTime - o.endTime;
         }
         public Meeting(int startTime, int endTime) {
             this.startTime = startTime;
@@ -51,32 +58,20 @@ public class Ct0902 {
         }
     }
 
-    public int BFS(int idx) {
-        int L = 0;
-        Queue<Integer> q = new LinkedList<>();
-        q.offer(idx);
-        while(! q.isEmpty()) {
-            int size = q.size();
-            for (int i=0; i<size; i++) {
-                int targetIdx = q.poll();
-                for (int j=targetIdx+1; j<n; j++) {
-                    if (arr[targetIdx].endTime <= arr[j].startTime) q.offer(j);
-                }
-            }
-            L++;
-        }
-        return L;
-    }
     public int solution() {
-        /* 최대수의 회의~ */
-        int answer = 0;
+        /* 최대수의 회의~ 한 사람이 한 번에 하나의 작업만 가능, 이 때 최대한 많이 작업할 수 있는 수를 구하라 >> 그리디 특징
+        *  종료시간이 빠른 애들 위주로 고르면 많이 할 수 있음
+        *  종료시간 빠른 애들을 선택하되 해당 선택된 값의 종료시간 기준 시작 시간이 그 이후인 빠른 종료시간 고르기
+        *  */
+        int answer = 1;
         Arrays.sort(arr);
-
-        for (int i=0; i<n-answer; i++) {
-            int cnt = BFS(i);
-            answer = Math.max(answer, cnt);
+        Meeting now = arr[0];
+        for (int i=1; i<n; i++) {
+            if (now.endTime <= arr[i].startTime) {
+                answer++;
+                now = arr[i];
+            }
         }
-
         return answer;
     }
 
