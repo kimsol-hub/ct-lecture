@@ -1,5 +1,4 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Ct0903 {
     /**
@@ -53,42 +52,48 @@ public class Ct0903 {
      */
 
     static int n;
-    static Wedding[] arr;
-    static int[] cntArr;
-    static class Wedding  {
-        int startTime;
-        int endTime;
+    static List<TimeTable> list;
+    static class TimeTable implements Comparable<TimeTable> {
+        int time;
+        char state;
 
-        public Wedding(int startTime, int endTime) {
-            this.startTime = startTime;
-            this.endTime = endTime;
+        public TimeTable(int time, char state) {
+            this.time = time;
+            this.state = state;
+        }
+
+        @Override
+        public int compareTo(TimeTable t) {
+            if (this.time == t.time) return this.state - t.state;
+            return this.time-t.time;
         }
     }
 
     public int solution() {
         /* 이건 기준을 처음 중간 끝 어느 곳도 잡을 수 없음. 그냥 시간대를 배열로 두고 해당되는 시간대 +1 해주기.
+           >> 이것보다 간단한 방법..!! cnt -+ 해주기, 그리디는 가능한 for문 하나로!!
         *  */
-        int answer = 0;
+        int answer = Integer.MIN_VALUE, cnt=0;
+        Collections.sort(list);
 
-        for (int i=0; i<n; i++) {
-            Wedding w = arr[i];
-            for (int j=w.startTime; j<w.endTime; j++) {
-                cntArr[j]++;
-            }
+        for (int i=0; i<list.size(); i++) {
+            TimeTable t = list.get(i);
+            if (t.state == 's') cnt++;
+            else if (t.state == 'e') cnt--;
+            answer = Math.max(answer, cnt);
         }
-        answer = Arrays.stream(cntArr).max().getAsInt();
+
         return answer;
     }
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         n = kb.nextInt();
-        arr = new Wedding[n];
-        cntArr = new int[73];
+        list = new ArrayList<>();
+
         for (int i=0; i<n; i++) {
-            int start = kb.nextInt();
-            int end = kb.nextInt();
-            arr[i] = new Wedding(start, end);
+            list.add(new TimeTable(kb.nextInt(), 's'));
+            list.add(new TimeTable(kb.nextInt(), 'e'));
         }
         Ct0903 main = new Ct0903();
         System.out.println(main.solution());

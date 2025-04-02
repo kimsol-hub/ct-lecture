@@ -63,13 +63,13 @@ public class Ct0902 {
         *  종료시간이 빠른 애들 위주로 고르면 많이 할 수 있음
         *  종료시간 빠른 애들을 선택하되 해당 선택된 값의 종료시간 기준 시작 시간이 그 이후인 빠른 종료시간 고르기
         *  */
-        int answer = 1;
+        int answer = 0, et=0;
         Arrays.sort(arr);
-        Meeting now = arr[0];
-        for (int i=1; i<n; i++) {
-            if (now.endTime <= arr[i].startTime) {
+
+        for (Meeting m : arr) {
+            if (et <= m.startTime) {
                 answer++;
-                now = arr[i];
+                et = m.endTime;
             }
         }
         return answer;

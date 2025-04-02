@@ -1,5 +1,4 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Ct0904 {
     /**
@@ -30,9 +29,8 @@ public class Ct0904 {
 
      */
 
-    static int n;
-    static Talk[] arr;
-    static int[] ch;
+    static int n, max;
+    static List<Talk> list;
     static class Talk implements Comparable<Talk> {
         int money;
         int day;
@@ -43,8 +41,7 @@ public class Ct0904 {
         }
         @Override
         public int compareTo(Talk t) {
-            if (t.money == this.money) return this.day - t.day;
-            return t.money - this.money;
+            return t.day-this.day;
         }
     }
 
@@ -56,15 +53,18 @@ public class Ct0904 {
         *  */
         int answer = 0;
 
-        Arrays.sort(arr);
-        for (int i=0; i<n; i++) {
-            int targetDay = arr[i].day;
-            for (int j=targetDay; j>0; j--) {
-                if (ch[j]==0) {
-                    answer += arr[i].money;
-                    ch[j]=1;
-                    break;
-                }
+        PriorityQueue<Integer> pQ = new PriorityQueue<>(Collections.reverseOrder());
+        Collections.sort(list);
+        int j=0;
+        for (int i=max; i>0; i--) {
+            for (; j<n; j++) {
+                Talk t = list.get(j);
+                if (t.day>=i) {
+                    pQ.offer(t.money);
+                } else break;
+            }
+            if (!pQ.isEmpty()) {
+                answer += pQ.poll();
             }
         }
         return answer;
@@ -73,12 +73,13 @@ public class Ct0904 {
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
         n = kb.nextInt();
-        arr = new Talk[n];
-        ch = new int[10001];
+        max = Integer.MIN_VALUE;
+        list = new ArrayList<>();
         for (int i=0; i<n; i++) {
             int m = kb.nextInt();
             int d = kb.nextInt();
-            arr[i] = new Talk(m, d);
+            list.add(new Talk(m, d));
+            if (d > max) max = d;
         }
         Ct0904 main = new Ct0904();
         System.out.println(main.solution());

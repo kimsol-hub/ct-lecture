@@ -42,7 +42,7 @@ public class Ct0901 {
 
         @Override
         public int compareTo(Person o) {
-            return this.tall - o.tall;
+            return o.tall - this.tall;
         }
         public Person(int weight, int tall) {
             this.weight = weight;
@@ -52,20 +52,14 @@ public class Ct0901 {
 
     public int solution() {
         /* 키, 몸무게 둘 다 높은 경우. 최다. 키 최저를 찾고 해당 몸무게보다 높은 경우 세기. 키 순으로 정렬 후 세기~ */
-        int answer = 0;
+        int answer = 0, max = Integer.MIN_VALUE;
         Arrays.sort(arr);
 
         for (int i=0; i<n; i++) {
-            Person target = arr[i];
-            boolean flag = true;
-
-            for (int j=i+1; j<n; j++) {
-                if (target.weight < arr[j].weight) {
-                    flag = false;
-                    break;
-                }
+            if (max < arr[i].weight) {
+                answer++;
+                max = arr[i].weight;
             }
-            if (flag) answer++;
         }
 
         return answer;
