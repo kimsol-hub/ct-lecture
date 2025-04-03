@@ -1,5 +1,4 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 public class Ct0905 {
     /**
@@ -46,38 +45,60 @@ public class Ct0905 {
 
      */
 
-    static int[][] arr;
-    static int[] answer;
-    static int[] ch;
+    static int[] dis;
     static int n;
-    public void DFS(int node) {
-        for (int i=1; i<=n; i++) {
-            if (arr[node][i]>0) {
-                if (ch[i]==0) {
-                    ch[i] = 1;
-                    if (answer[i]==0) answer[i] = answer[node]+arr[node][i];
-                    else answer[i] = Math.min(answer[i], answer[node]+arr[node][i]);
-                    DFS(i);
-                    ch[i] = 0;
-                }
-            }
+
+    static List<List<Edge>> graph;
+
+    static class Edge implements Comparable<Edge> {
+        int vt;
+        int cost;
+
+        public Edge(int vt, int cost) {
+            this.vt = vt;
+            this.cost = cost;
+        }
+
+        @Override
+        public int compareTo(Edge e) {
+            return this.cost-e.cost;
         }
     }
-
-    public void solution() {
+    public void solution(int s) {
         /* 1에서 각 정점 방문하는 최소 비용 출력 불가능할 경우 impossible
            1. 1에서 출발.
            2. 0이상인 경우 해당 노드로 이동.
            3. 이동 후 더해서 해당 값 넣기.
            4. 없을 경우, 종료.
-        *  */
-        ch[1]=1;
-        DFS(1);
-        for (int i=2; i<=n; i++) {
-            if (answer[i]==0) System.out.println(i + " : impossible" );
-            else System.out.println(i + " : " + answer[i]);
-        }
 
+           ===
+           다익스트라 알고리즘 개념
+           1. 출발노드 설정 (방문1표시)
+           2. 출발노드 기준 각 노드 최소 비용 저장
+           3. 방문하지 않은 노드 중에서 가장 비용이 적은 노드 선택 (방문1표시)
+           4. 최소 비용 노드 선택 기준 각 노드 최소 비용과 기존 비용을 비교하여 최소 비용 갱신 << 이 부분을 우선순위 큐로 하는 듯?
+           5. 3-4번 과정 반복
+
+            위의 내용을 우선순위큐(힙) 사용해서 할 수 있대.. nlogn됨 원래는 n*n
+
+
+        *  */
+        PriorityQueue<Edge> pQ = new PriorityQueue<>();
+        dis[1] = 0;
+        pQ.offer(new Edge(s, 0));
+
+        while (!pQ.isEmpty()) {
+            Edge t = pQ.poll();
+            int now = t.vt;
+            int nowWeight = t.cost;
+            if (dis[now] < nowWeight) continue; //이부분 중요
+            for (Edge e : graph.get(t.vt)) {
+                if (dis[e.vt] > nowWeight + e.cost) {
+                    dis[e.vt] = nowWeight + e.cost;
+                    pQ.offer(new Edge(e.vt, dis[e.vt])); //해당 위치 잊지말기
+                }
+            }
+        }
 
     }
 
@@ -85,17 +106,24 @@ public class Ct0905 {
         Scanner kb = new Scanner(System.in);
         n = kb.nextInt();
         int m = kb.nextInt();
-        answer = new int[n+1];
-        ch = new int[n+1];
-        arr = new int[n+1][n+1];
+        dis = new int[n+1];
+        Arrays.fill(dis, Integer.MAX_VALUE); //초기화할 때 기억.
+        graph = new ArrayList<>();
+        for (int i=0; i<=n; i++) {
+            graph.add(new ArrayList<>());
+        }
 
         for (int i=0; i<m; i++) {
             int a = kb.nextInt();
             int b = kb.nextInt();
             int p = kb.nextInt();
-            arr[a][b] = p;
+            graph.get(a).add(new Edge(b, p));
         }
         Ct0905 main = new Ct0905();
-        main.solution();
+        main.solution(1);
+        for (int i=2; i<=n; i++) {
+            if (dis[i]==Integer.MAX_VALUE) System.out.println(i + " : impossible" );
+            else System.out.println(i + " : " + dis[i]);
+        }
     }
 }

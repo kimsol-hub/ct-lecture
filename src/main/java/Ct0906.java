@@ -40,55 +40,40 @@ public class Ct0906 {
      */
 
     static int n, x, y;
-    static int[] ch;
-    static String answer = "NO";
-    static List<List<Integer>> list;
+    static int[] arr;
 
-    public void DFS(int node) {
-        List<Integer> tmp = list.get(node);
-        for (int i=0; i<tmp.size(); i++) {
-            if (ch[tmp.get(i)] == 0) {
-                ch[tmp.get(i)] = 1;
-                if (tmp.get(i) == y) {
-                    answer = "YES";
-                    return;
-                }
-                DFS(tmp.get(i));
-                ch[tmp.get(i)] = 0;
-            }
-        }
+    public int Find(int a) {
+        if (arr[a] != a) return arr[a] = Find(arr[a]);
+        return a;
+    }
+    public void Union(int a, int b) {
+        int fa=Find(a);
+        int fb=Find(b);
+//        if (Find(a) != Find(b)) arr[Find(a)] = arr[b];
+        if (fa != fb) arr[fa] = arr[fb];
     }
 
-    public String solution() {
-        /* 친구라면, YES
-           Union find .. 합집합 찾기..
-        *  */
-        DFS(x);
-
-        return answer;
-    }
 
     public static void main(String[] args) {
         Scanner kb = new Scanner(System.in);
+        Ct0906 main = new Ct0906();
         n = kb.nextInt();
         int m = kb.nextInt();
-        list = new ArrayList<>();
 
-        ch = new int[n+1];
+        arr = new int[n+1];
 
-        for (int i=0; i<=n; i++) {
-            list.add(new ArrayList<>());
-        }
+        for (int i=0; i<=n; i++) arr[i] = i;
 
         for (int i=0; i<m; i++) {
             int a = kb.nextInt();
             int b = kb.nextInt();
-            list.get(a).add(b);
-            list.get(b).add(a);
+            main.Union(a, b);
         }
         x = kb.nextInt();
         y = kb.nextInt();
-        Ct0906 main = new Ct0906();
-        System.out.println(main.solution());
+        String answer = "NO";
+        if (main.Find(x) == main.Find(y)) answer = "YES";
+
+        System.out.println(answer);
     }
 }
