@@ -1,11 +1,13 @@
 import java.util.*;
 
 class City implements Comparable<City> {
-    int n;
+    int start;
+    int end;
     int cost;
 
-    public City(int n, int cost) {
-        this.n = n;
+    public City(int start, int end,  int cost) {
+        this.start = start;
+        this.end = end;
         this.cost = cost;
     }
 
@@ -57,9 +59,9 @@ public class Ct0907 {
      */
 
     static int n;
-    static int[] arr, dis;
+    static int[] arr;
 
-    static List<List<City>> list;
+    static PriorityQueue<City> pQ;
 
     public int Find(int a) {
         if (arr[a] != a) return arr[a] = Find(arr[a]);
@@ -77,24 +79,16 @@ public class Ct0907 {
         *  */
         int answer = 0;
 
-        PriorityQueue<City> pQ = new PriorityQueue<>();
-        pQ.offer(new City(1, 0));
-        while (! pQ.isEmpty()) {
-            City target = pQ.poll();
-            if (dis[target.n] > target.cost) dis[target.n] = target.cost;
-            else if (dis[target.n] < target.cost) continue;
-            for (City c : list.get(target.n)) {
-                if (dis[c.n] > c.cost) {
-//                    dis[c.n] = c.cost;
-                    Union(target.n, c.n);
-                    pQ.offer(c);
-                }
+        while (!pQ.isEmpty()) {
+            City c = pQ.poll();
+            int a = c.start;
+            int b = c.end;
+            int fa = Find(a);
+            int fb = Find(b);
+            if (fa != fb) {
+                answer += c.cost;
+                Union(fa, fb);
             }
-
-        }
-
-        for (int i=1; i<=n; i++) {
-            answer += dis[i];
         }
 
         return answer;
@@ -104,24 +98,18 @@ public class Ct0907 {
         Scanner kb = new Scanner(System.in);
         n = kb.nextInt();
         int m = kb.nextInt();
-        list = new ArrayList<>();
+        pQ = new PriorityQueue<>();
 
         arr = new int[n+1];
-        dis = new int[n+1];
 
         for (int i=0; i<=n; i++) arr[i] = i;
-        Arrays.fill(dis, Integer.MAX_VALUE);
-        for (int i=0; i<=n; i++) {
-            list.add(new ArrayList<>());
-        }
 
         for (int i=0; i<m; i++) {
             int a = kb.nextInt();
             int b = kb.nextInt();
             int c = kb.nextInt();
 
-            list.get(a).add(new City(b, c));
-            list.get(b).add(new City(a, c));
+            pQ.add(new City(a, b, c));
         }
 
         Ct0907 main = new Ct0907();
