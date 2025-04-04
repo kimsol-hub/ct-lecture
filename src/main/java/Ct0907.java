@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.List;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 class City implements Comparable<City> {
     int n;
@@ -59,8 +56,9 @@ public class Ct0907 {
 
      */
 
-    static int n, x, y;
-    static int[] arr;
+    static int n;
+    static int[] arr, dis;
+
     static List<List<City>> list;
 
     public int Find(int a) {
@@ -82,7 +80,21 @@ public class Ct0907 {
         PriorityQueue<City> pQ = new PriorityQueue<>();
         pQ.offer(new City(1, 0));
         while (! pQ.isEmpty()) {
+            City target = pQ.poll();
+            if (dis[target.n] > target.cost) dis[target.n] = target.cost;
+            else if (dis[target.n] < target.cost) continue;
+            for (City c : list.get(target.n)) {
+                if (dis[c.n] > c.cost) {
+//                    dis[c.n] = c.cost;
+                    Union(target.n, c.n);
+                    pQ.offer(c);
+                }
+            }
 
+        }
+
+        for (int i=1; i<=n; i++) {
+            answer += dis[i];
         }
 
         return answer;
@@ -95,8 +107,10 @@ public class Ct0907 {
         list = new ArrayList<>();
 
         arr = new int[n+1];
+        dis = new int[n+1];
 
         for (int i=0; i<=n; i++) arr[i] = i;
+        Arrays.fill(dis, Integer.MAX_VALUE);
         for (int i=0; i<=n; i++) {
             list.add(new ArrayList<>());
         }
@@ -107,6 +121,7 @@ public class Ct0907 {
             int c = kb.nextInt();
 
             list.get(a).add(new City(b, c));
+            list.get(b).add(new City(a, c));
         }
 
         Ct0907 main = new Ct0907();
