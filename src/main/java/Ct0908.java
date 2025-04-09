@@ -1,25 +1,26 @@
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.PriorityQueue;
+import java.util.Scanner;
 
-class City implements Comparable<City> {
-    int vt1;
-    int vt2;
+class Edge implements Comparable<Edge> {
+    int vt;
     int cost;
 
-    public City(int vt1, int vt2, int cost) {
-        this.vt1 = vt1;
-        this.vt2 = vt2;
+    public Edge(int vt, int cost) {
+        this.vt = vt;
         this.cost = cost;
     }
 
     @Override
-    public int compareTo(City c) {
+    public int compareTo(Edge c) {
         return this.cost - c.cost;
     }
 }
-public class Ct0907 {
+public class Ct0908 {
     /**
 
-     7. 원더랜드(최소스패닝트리 : 크루스칼, Union&Find 활용)
+     8. 원더랜드(최소스패닝트리 : 프림, PriorintyQueue)
      원더랜드에 문제가 생겼다. 원더랜드의 각 도로를 유지보수하는 재정이 바닥난 것이다.
      원더랜드는 모든 도시를 서로 연결하면서 최소의 유지비용이 들도록 도로를 선택하고 나머지
      도로는 폐쇄하려고 한다.
@@ -59,8 +60,9 @@ public class Ct0907 {
      */
 
     static int n;
-    static int[] arr;
-    static List<City> graph;
+    static int[] arr, ch;
+    static PriorityQueue<Edge> pQ;
+    static List<List<Edge>> graph;
 
     public int Find(int a) {
         if (arr[a] != a) return arr[a] = Find(arr[a]);
@@ -77,16 +79,20 @@ public class Ct0907 {
         /* 모든 도시를 연결하는 최소 비용 찾기
         *  */
         int answer = 0;
-        Collections.sort(graph);
+        pQ.offer(new Edge(1, 0));
+        while (!pQ.isEmpty()) {
+            Edge e = pQ.poll();
+            int a = e.vt;
+            if (ch[a]==0) {
+                ch[a] = 1;
+                answer += e.cost;
 
-        for (City c : graph) {
-            int a = c.vt1;
-            int b = c.vt2;
-            int fa = Find(a);
-            int fb = Find(b);
-            if (fa != fb ) {
-                Union(fa, fb);
-                answer += c.cost;
+                for (Edge f : graph.get(a)) {
+                    int b = f.vt;
+                    if (ch[b] == 0) {
+                        pQ.offer(f);
+                    }
+                }
             }
         }
 
@@ -98,20 +104,26 @@ public class Ct0907 {
         n = kb.nextInt();
         int m = kb.nextInt();
         graph = new ArrayList<>();
+        pQ = new PriorityQueue<>();
+
         arr = new int[n+1];
+        ch = new int[n+1];
 
         for (int i=0; i<=n; i++) {
             arr[i] = i;
+            graph.add(new ArrayList<>());
         }
 
         for (int i=0; i<m; i++) {
             int a = kb.nextInt();
             int b = kb.nextInt();
             int c = kb.nextInt();
-            graph.add(new City(a, b, c));
+
+            graph.get(a).add(new Edge(b, c));
+            graph.get(b).add(new Edge(a, c));
         }
 
-        Ct0907 main = new Ct0907();
+        Ct0908 main = new Ct0908();
         System.out.println(main.solution());
     }
 }
