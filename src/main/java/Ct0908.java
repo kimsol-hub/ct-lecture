@@ -60,20 +60,10 @@ public class Ct0908 {
      */
 
     static int n;
-    static int[] arr, ch;
+    static int[] ch;
     static PriorityQueue<Edge> pQ;
     static List<List<Edge>> graph;
 
-    public int Find(int a) {
-        if (arr[a] != a) return arr[a] = Find(arr[a]);
-        return a;
-    }
-
-    public void Union(int a, int b) {
-        int fa = Find(a);
-        int fb = Find(b);
-        if (fa != fb) arr[fa] = arr[fb];
-    }
 
     public int solution() {
         /* 모든 도시를 연결하는 최소 비용 찾기
@@ -106,11 +96,9 @@ public class Ct0908 {
         graph = new ArrayList<>();
         pQ = new PriorityQueue<>();
 
-        arr = new int[n+1];
         ch = new int[n+1];
 
         for (int i=0; i<=n; i++) {
-            arr[i] = i;
             graph.add(new ArrayList<>());
         }
 

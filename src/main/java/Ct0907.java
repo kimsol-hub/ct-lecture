@@ -70,7 +70,7 @@ public class Ct0907 {
     public void Union(int a, int b) {
         int fa = Find(a);
         int fb = Find(b);
-        if (fa != fb) arr[fa] = arr[fb];
+        if (fa != fb) arr[fa] = fb;
     }
 
     public int solution() {
