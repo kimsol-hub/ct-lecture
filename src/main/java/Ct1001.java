@@ -22,26 +22,23 @@ public class Ct1001 {
      21
 
      */
-    static int n, answer = 0;
+    static int n = 0;
+    static int[] answer;
 
-    public void DFS(int total) {
-        if (total > n) return;
-        if (total == n) {
-            answer++;
-        } else {
-            DFS(total+1);
-            DFS(total+2);
-        }
-    }
-
-    public int solution(int n) {
+    public int solution() {
         /*
         * 1계단 or 2계단
         * 올라갈 수 있는 모든 방법의 수 구하기
+        * dp >> 문제를 최소한 작게 쪼개서 해결방안 구하기
+        *
         * */
-        DFS(1);
-        DFS(2);
-        return answer;
+        answer[1] = 1;
+        answer[2] = 2;
+        for (int i=3; i<=n; i++) {
+            answer[i] = answer[i-2] + answer[i-1];
+        }
+
+        return answer[n];
     }
 
 
@@ -50,7 +47,8 @@ public class Ct1001 {
         Ct1001 main = new Ct1001();
 
         n = kb.nextInt();
+        answer = new int[n+1];
 
-        System.out.println(main.solution(n));
+        System.out.println(main.solution());
     }
 }
