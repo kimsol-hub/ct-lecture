@@ -43,7 +43,7 @@ public class Ct1005 {
 
      */
     static int n, m;
-    static int[] arr, dy;
+    static int[] arr;
 
 
     public int solution() {
@@ -83,7 +83,6 @@ public class Ct1005 {
 
         n = kb.nextInt();
         arr = new int[n];
-        dy = new int[101];
         for (int i=0; i<n; i++) {
             arr[i] = kb.nextInt();
         }
