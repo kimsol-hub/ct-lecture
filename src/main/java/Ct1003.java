@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Ct1003 {
@@ -30,24 +31,27 @@ public class Ct1003 {
 
      */
     static int n;
-    static int[] arr;
+    static int[] arr, dy;
 
 
     public int solution() {
         /*
         * 최대 부분 증가수열 길이 구하기
-        * 3개부터 계산.
+        * 한 개씩 순차적 체크
         * */
         int answer = 0;
-
-        for (int i=0; i<3; i++) {
-
+        dy[0] = 1;
+        for (int i=1; i<n; i++) {
+            int tmp = 0;
+            for (int j=i-1; j>=0; j--) {
+                if (arr[i] > arr[j]) {
+                    tmp = Math.max(tmp, dy[j]);
+                }
+            }
+            dy[i] = tmp+1;
         }
-        for (int i=3; i<n; i++) {
-            if (arr[i] > arr[i-1]) answer++;
-
-        }
-        return answer+1;
+        answer = Arrays.stream(dy).max().getAsInt();
+        return answer;
     }
 
 
@@ -57,6 +61,7 @@ public class Ct1003 {
 
         n = kb.nextInt();
         arr = new int[n];
+        dy = new int[n];
         for (int i=0; i<n; i++) {
             arr[i] = kb.nextInt();
         }
