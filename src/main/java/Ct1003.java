@@ -42,15 +42,17 @@ public class Ct1003 {
         int answer = 0;
         dy[0] = 1;
         for (int i=1; i<n; i++) {
-            int tmp = 0;
+            int max = 0;
             for (int j=i-1; j>=0; j--) {
-                if (arr[i] > arr[j]) {
-                    tmp = Math.max(tmp, dy[j]);
+                if (arr[i] > arr[j]  && dy[j]>max ) {
+                    max = dy[j];
                 }
             }
-            dy[i] = tmp+1;
+            dy[i] = max+1;
+            answer=Math.max(answer, dy[i]);
+
         }
-        answer = Arrays.stream(dy).max().getAsInt();
+
         return answer;
     }
 

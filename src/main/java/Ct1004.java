@@ -1,20 +1,19 @@
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
-class Rock implements Comparable<Rock> {
+class Brick implements Comparable<Brick> {
     int size;
     int height;
     int weight;
 
-    public Rock(int size, int height, int weight) {
+    public Brick(int size, int height, int weight) {
         this.size = size;
         this.height = height;
         this.weight = weight;
     }
 
     @Override
-    public int compareTo(Rock r) {
-        return this.weight - r.weight;
+    public int compareTo(Brick r) {
+        return r.size - this.size;
     }
 }
 public class Ct1004 {
@@ -55,28 +54,28 @@ public class Ct1004 {
      */
     static int n;
     static int[] dy;
-    static Rock[] arr;
+    static List<Brick> list;
 
 
     public int solution() {
         /*
-        * 최대 부분 증가수열 길이 구하기
-        * 가벼운 애 기준 정렬, 넓이 비교하면서 dy 채우기
-        * */
+         * 탑 최고높이 구하기
+         * 가벼운 애 기준 정렬, 넓이 비교하면서 dy 채우기
+         * */
         int answer = 0;
-        Arrays.sort(arr);
-        dy[0] = arr[0].height;
+        Collections.sort(list);
+        dy[0] = list.get(0).height;
+        answer=dy[0];
         for (int i=1; i<n; i++) {
-            dy[i] = arr[i].height;
-            int tmp = 0;
+            int max = 0;
             for (int j=i-1; j>=0; j--) {
-                if (arr[i].size > arr[j].size) {
-                    tmp = Math.max(tmp, dy[j]);
+                if (list.get(i).weight < list.get(j).weight && max < dy[j]) {
+                    max = dy[j];
                 }
             }
-            dy[i] += tmp;
+            dy[i] = list.get(i).height + max;
+            answer = Math.max(dy[i], answer);
         }
-        answer = Arrays.stream(dy).max().getAsInt();
         return answer;
     }
 
@@ -86,14 +85,14 @@ public class Ct1004 {
         Ct1004 main = new Ct1004();
 
         n = kb.nextInt();
-        arr = new Rock[n];
+        list = new ArrayList<>();
         dy = new int[n];
 
         for (int i=0; i<n; i++) {
             int size = kb.nextInt();
             int height = kb.nextInt();
             int weight = kb.nextInt();
-            arr[i] = new Rock(size, height, weight);
+            list.add(new Brick(size, height, weight));
         }
         System.out.println(main.solution());
     }

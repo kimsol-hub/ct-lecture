@@ -1,14 +1,5 @@
 import java.util.*;
 
-class Coin {
-    int cnt;
-    int cash;
-
-    public Coin(int cnt, int cash) {
-        this.cnt = cnt;
-        this.cash = cash;
-    }
-}
 public class Ct1005 {
     /**
 
@@ -43,37 +34,23 @@ public class Ct1005 {
 
      */
     static int n, m;
-    static int[] arr;
+    static int[] arr, dy;
 
 
     public int solution() {
         /*
         * 동전개수 구하기
-        * 순차적으로 동전 개수 따지기, + 최소값 queue에 넣기
+        * 각 동전 단위별로 순차 체크
         * */
-        Queue<Coin> q = new LinkedList<>();
-        q.add(new Coin(0, m));
-        int answer = Integer.MAX_VALUE;
-        while (! q.isEmpty()) {
-            int[] tmp = new int[n];
-            int min = Integer.MAX_VALUE;
-            Coin target = q.poll();
-            if (target.cash == 0 && answer > target.cnt) {
-                answer = target.cnt;
-            }
-            for (int i=0; i<n; i++) {
-                tmp[i] = target.cash/arr[i];
-                if (tmp[i]!=0 && min > tmp[i]) {
-                    min = tmp[i];
-                }
-            }
-            for (int i=0; i<n; i++) {
-                if (tmp[i]==min) {
-                    q.offer(new Coin(target.cnt+tmp[i], target.cash%arr[i]));
-                }
+        Arrays.fill(dy, Integer.MAX_VALUE);
+        dy[0] = 0;
+        for (int x : arr) {
+            for (int i=x; i<=m; i++) {
+                dy[i] = Math.min(dy[i], dy[i-x] + 1);
             }
         }
-        return answer;
+
+        return dy[m];
     }
 
 
@@ -87,6 +64,7 @@ public class Ct1005 {
             arr[i] = kb.nextInt();
         }
         m = kb.nextInt();
+        dy = new int[m+1];
         System.out.println(main.solution());
     }
 }
