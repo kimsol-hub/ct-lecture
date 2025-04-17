@@ -3,26 +3,17 @@ import java.util.*;
 class Quest implements Comparable<Quest> {
     int score;
     int time;
-    int scorePerTime;
-    int remain;
 
 
     public Quest(int score, int time) {
         this.score = score;
         this.time = time;
-        this.scorePerTime = score/time;
-        this.remain = score%time;
     }
 
     @Override
     public int compareTo(Quest q) {
-        if (this.scorePerTime == q.scorePerTime) {
-            if (this.remain == q.remain) {
-                return q.time - this.time;
-            }
-            return q.remain - this.remain;
-        }
-        return q.scorePerTime - this.scorePerTime;
+        if (q.score == this.score) return q.time - this.time;
+        return q.score - this.score;
     }
 }
 public class Ct1006 {
@@ -70,26 +61,34 @@ public class Ct1006 {
      */
     static int n, m;
     static List<Quest> list;
+    static int[][] dp;
 
 
     public int solution() {
         /*
         * 제한시간 내 최대 점수 구하기
-        * 시간당 점수 구해서 나열
+        * dp[m]으로 초기화 - 시간.
+        * 문제 풀이 시간 기준 오름차순 정렬, 중복 허용X 고려 필요
+        * 2차원 dp를 해야 함
         * */
-        int answer = 0;
 
         Collections.sort(list);
-        int target = m;
-        for (Quest q : list) {
-            if (target >= q.time) {
-                answer += q.score;
-                target -= q.time;
+
+        for (int i=1; i<=m; i++) {
+            int sum = 0;
+            int total = 0;
+            for (int j=0; j<n; j++) {
+                if (i < sum+list.get(j).time) {
+                    continue;
+                } else {
+                    sum += list.get(j).time;
+                    total += list.get(j).score;
+                }
             }
-            if (target == 0) break;
+//            dp[i] = Math.max(total, dp[i]);
         }
 
-        return answer;
+        return dp[n][m];
     }
 
 
@@ -103,7 +102,7 @@ public class Ct1006 {
         for (int i=0; i<n; i++) {
             list.add(new Quest(kb.nextInt(), kb.nextInt()));
         }
-
+        dp = new int[n+1][m+1];
         System.out.println(main.solution());
     }
 }
