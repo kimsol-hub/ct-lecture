@@ -1,6 +1,6 @@
 import java.util.*;
 
-class Quest implements Comparable<Quest> {
+class Quest {
     int score;
     int time;
 
@@ -8,12 +8,6 @@ class Quest implements Comparable<Quest> {
     public Quest(int score, int time) {
         this.score = score;
         this.time = time;
-    }
-
-    @Override
-    public int compareTo(Quest q) {
-        if (q.score == this.score) return q.time - this.time;
-        return q.score - this.score;
     }
 }
 public class Ct1006 {
@@ -61,7 +55,7 @@ public class Ct1006 {
      */
     static int n, m;
     static List<Quest> list;
-    static int[][] dp;
+    static int[] dp;
 
 
     public int solution() {
@@ -69,26 +63,17 @@ public class Ct1006 {
         * 제한시간 내 최대 점수 구하기
         * dp[m]으로 초기화 - 시간.
         * 문제 풀이 시간 기준 오름차순 정렬, 중복 허용X 고려 필요
-        * 2차원 dp를 해야 함
         * */
 
-        Collections.sort(list);
+        for (int i=0; i<n; i++) {
+            int score = list.get(i).score;
+            int time = list.get(i).time;
 
-        for (int i=1; i<=m; i++) {
-            int sum = 0;
-            int total = 0;
-            for (int j=0; j<n; j++) {
-                if (i < sum+list.get(j).time) {
-                    continue;
-                } else {
-                    sum += list.get(j).time;
-                    total += list.get(j).score;
-                }
+            for (int j=m; j>=time; j--) {
+                dp[j] = Math.max(dp[j], dp[j-time]+score);
             }
-//            dp[i] = Math.max(total, dp[i]);
         }
-
-        return dp[n][m];
+        return dp[m];
     }
 
 
@@ -102,7 +87,7 @@ public class Ct1006 {
         for (int i=0; i<n; i++) {
             list.add(new Quest(kb.nextInt(), kb.nextInt()));
         }
-        dp = new int[n+1][m+1];
+        dp = new int[m+1];
         System.out.println(main.solution());
     }
 }
