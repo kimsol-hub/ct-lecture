@@ -32,26 +32,24 @@ public class Ct0111 {
 
 
     public String solution(String s) {
-        /* 연속되는 문자의 경우 숫자로 요약 표현 */
+        /* 연속되는 문자의 경우 숫자로 요약 표현
+        *  맨마지막과 비교를 위해 " " 추가
+        *  */
         String answer = "";
-        char tmp = '\0';
-        int cnt = 0;
-        for (char c : s.toCharArray()) {
-            if (tmp != c) {
-                if (tmp != '\0') {
-                    answer += String.valueOf(tmp);
-                    if (cnt > 1) answer += cnt;
-                }
+        s += " ";
+        int cnt = 1;
+        char tmp = s.charAt(0);
+        for (int i=0; i<s.length()-1; i++) {
+            if (tmp != s.charAt(i+1)) {
+                answer += tmp;
+                if (cnt > 1) answer += cnt;
+                tmp = s.charAt(i+1);
                 cnt = 1;
-                tmp = c;
             } else {
                 cnt++;
             }
         }
-        if (tmp != '\0') {
-            answer += String.valueOf(tmp);
-            if (cnt > 1) answer += cnt;
-        }
+
         return answer;
     }
 

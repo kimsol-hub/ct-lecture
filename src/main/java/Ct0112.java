@@ -1,3 +1,4 @@
+import java.nio.file.Path;
 import java.util.Scanner;
 
 public class Ct0112 {
@@ -46,21 +47,17 @@ public class Ct0112 {
 
 
 
-    public String solution(String s) {
+    public String solution(String s, int n) {
         /* 알파벳 한 문자마다 # 또는 *이 일곱 개로 구성
          *  #은 이진수의 1로, *이진수의 0으로 변환
          *  이진수 > 십진수
-         *  문자 완성 후 반환
+         *  substring, replace, Integer.parseInt
          *  */
         String answer = "";
-        int tmp = 0;
-
-        for (int i=0; i<s.length(); i++) {
-            tmp += s.charAt(i)=='#' ? Math.pow(2, 6-(i%7)) :0;
-            if ((i+1)%7 == 0) {
-                answer += (char) tmp;
-                tmp = 0;
-            }
+        for (int i=0; i<n; i++) {
+            String tmp = s.substring(0, 7).replace("*", "0").replace("#", "1");
+            answer += (char) Integer.parseInt(tmp, 2);
+            s = s.substring(7);
         }
 
         return answer;
@@ -74,6 +71,6 @@ public class Ct0112 {
 
         String s = kb.nextLine().replace("\n", "");
         s = s.replace(" ", "");
-        System.out.println(main.solution(s));
+        System.out.println(main.solution(s, n));
     }
 }
