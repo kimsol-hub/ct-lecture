@@ -45,20 +45,24 @@ public class Ct0212 {
            멘토 멘티 짝 경우의 수 구하기
            score[학생번호0-3][시험0-2]
            학생 순차로 돌면서 자기보다 모든 등수 아래인 사람 체크
+
+           >> 프로그래머스처럼 아예 입력 형태대로 받게 될 수 있으니 강의 참고해서 수정
         *  */
         int answer = 0;
 
-        for (int i=0; i<score.length; i++) {
-            for (int j=0; j<score.length; j++) {
-                if (i==j) continue;
-                boolean flag = true;
-                for (int k=0; k<score[i].length; k++) {
-                    if (score[i][k] < score[j][k]) {
-                        flag = false;
-                        break;
+        for (int i=1; i<=4; i++) {
+            for (int j=1; j<=4; j++) {
+                int cnt = 0;
+                for (int k=0; k<score.length; k++) {
+                    int pi = 0;
+                    int pj = 0;
+                    for (int l=0; l<score[k].length; l++) {
+                        if (score[k][l]==i) pi = l;
+                        if (score[k][l]==j) pj = l;
                     }
+                    if (pi > pj) cnt++;
                 }
-                if (flag) answer++;
+                if (cnt == score.length) answer++;
             }
         }
 
@@ -71,11 +75,11 @@ public class Ct0212 {
         int n = kb.nextInt();
         int m = kb.nextInt();
 
-        int[][] score = new int[n][m];
+        int[][] score = new int[m][n];
         for (int i=0; i<m; i++) {
             for (int j=0; j<n; j++) {
                 int student = kb.nextInt();
-                score[student-1][i] = j+1;
+                score[i][j] = student;
             }
         }
 

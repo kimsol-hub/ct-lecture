@@ -38,16 +38,12 @@ public class Ct0111 {
         String answer = "";
         s += " ";
         int cnt = 1;
-        char tmp = s.charAt(0);
         for (int i=0; i<s.length()-1; i++) {
-            if (tmp != s.charAt(i+1)) {
-                answer += tmp;
+            if (s.charAt(i) != s.charAt(i+1)) {
+                answer += s.charAt(i);
                 if (cnt > 1) answer += cnt;
-                tmp = s.charAt(i+1);
                 cnt = 1;
-            } else {
-                cnt++;
-            }
+            } else cnt++;
         }
 
         return answer;
