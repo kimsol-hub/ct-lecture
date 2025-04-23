@@ -45,8 +45,8 @@ public class Ct0306 {
                 if (arr[i]==0) {
                     cnt++;
                     if (cnt>k) break;
-                    length++;
-                } else length++;
+                }
+                length++;
             }
             answer = Math.max(answer, length);
             lt++;
