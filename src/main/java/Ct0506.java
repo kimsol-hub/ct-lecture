@@ -42,18 +42,19 @@ public class Ct0506 {
         k를 외치는 사람 빠짐, 빠지면 다시 그 다음사람부터 1부터 숫자 차례로 외침
 
         *  */
+        int answer = 0;
         Queue<Integer> q = new LinkedList<>();
         for (int i=1; i<=n; i++) {
             q.offer(i);
         }
-        while (q.size() > 1) {
-            for (int i=0; i<k-1; i++) {
+        while (!q.isEmpty()) {
+            for (int i=1; i<k; i++) {
                 int t = q.poll();
                 q.offer(t);
             }
-            q.poll();
+            answer = q.poll();
         }
-        return q.poll();
+        return answer;
     }
 
     public static void main(String[] args) {

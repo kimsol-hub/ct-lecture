@@ -29,28 +29,17 @@ public class Ct0305 {
 
     public int solution(int n) {
         /* 양의 정수 N을 2개 이상의 연속된 자연수로 표기하는 방법 가짓수
-           lt 0 rt length-1
+           1,2,3,4,... 갈수록 체크.
         *  */
         int answer = 0;
 
-        int lt = 1, rt = n/2+1;
-        while (lt < rt) {
-            int total = 0;
-            for (int i=lt; i<=rt; i++) {
-                total += i;
-            }
-            if (total==n) {
-                answer++;
-                lt++;
-                rt++;
-            }
-            else if (total > n) {
-                rt--;
-            }
-            else {
-                lt++;
-                rt++;
-            }
+        int cnt = 1;
+        n--;
+
+        while (n>0) {
+            cnt++;
+            n -= cnt;
+            if (n%cnt==0) answer++;
         }
         return answer;
     }
