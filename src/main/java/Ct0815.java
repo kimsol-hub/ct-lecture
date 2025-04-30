@@ -58,8 +58,6 @@ public class Ct0815 {
      */
 
     static int[][] minArr;
-    static int[][] arr;
-
     static int n, m, answer;
     static List<Position> house, pizzaShop;
 
@@ -83,27 +81,31 @@ public class Ct0815 {
     }
 
 
-    public void DFS(int cnt, List<Position> list, int idx) {
-        if (cnt==m) {
+    public void DFS(int cnt, List<Integer> selectedPizzaIndices, int idx) {
+        if (cnt == m) {
             int total = 0;
-            for (int i=0; i<house.size(); i++) {
+            for (int i = 0; i < house.size(); i++) {
                 int min = Integer.MAX_VALUE;
-                for (Position p : list) {
-                    int j = pizzaShop.indexOf(p);
-                    if (minArr[i][j] == 0) {
-                        Position h = house.get(i);
-                        minArr[i][j]  = Math.abs(p.x- h.x) + Math.abs(p.y- h.y);
+                Position h = house.get(i);
+                for (int pizzaIdxInOriginalList : selectedPizzaIndices) {
+                    if (minArr[i][pizzaIdxInOriginalList] == 0) {
+                        Position p = pizzaShop.get(pizzaIdxInOriginalList);
+                        minArr[i][pizzaIdxInOriginalList] = Math.abs(p.x - h.x) + Math.abs(p.y - h.y);
                     }
-                    if (min > minArr[i][j]) min = minArr[i][j];
+                    if (min > minArr[i][pizzaIdxInOriginalList]) {
+                        min = minArr[i][pizzaIdxInOriginalList];
+                    }
                 }
                 total += min;
             }
-            if (total < answer) answer = total;
+            if (total < answer) {
+                answer = total;
+            }
         } else {
-            for (int i=idx; i<pizzaShop.size(); i++) {
-                list.add(pizzaShop.get(i));
-                DFS(cnt+1, list, idx+1);
-                list.remove(pizzaShop.get(i));
+            for (int i = idx; i < pizzaShop.size(); i++) {
+                selectedPizzaIndices.add(i);
+                DFS(cnt + 1, selectedPizzaIndices, i + 1);
+                selectedPizzaIndices.remove(selectedPizzaIndices.size() - 1);
             }
         }
     }
