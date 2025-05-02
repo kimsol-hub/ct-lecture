@@ -34,6 +34,8 @@ public class Ep0102 {
      7
      8
      9
+
+     소요시간: 1시간
      */
 
     static int n, cnt;

@@ -30,6 +30,8 @@ public class Ep0101 {
      예제 출력 1
      3
      1 7 13
+
+     소요시간 : 2시간
      */
 
     static int m, n, cnt;
