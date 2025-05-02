@@ -1,4 +1,5 @@
-import java.nio.file.Path;
+package apr;
+
 import java.util.Scanner;
 
 public class Ct0112 {

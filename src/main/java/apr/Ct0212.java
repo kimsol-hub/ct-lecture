@@ -1,3 +1,5 @@
+package apr;
+
 import java.util.Scanner;
 
 public class Ct0212 {

@@ -1,3 +1,5 @@
+package apr;
+
 import java.util.*;
 
 class City implements Comparable<City> {

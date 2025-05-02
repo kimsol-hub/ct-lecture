@@ -1,3 +1,5 @@
+package apr;
+
 import java.util.*;
 
 class Brick implements Comparable<Brick> {
