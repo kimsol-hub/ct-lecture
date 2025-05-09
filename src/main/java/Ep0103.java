@@ -39,6 +39,8 @@ public class Ep0103 {
      cisw
      citw
      istw
+
+     소요시간 : 30분, 이후 조건 체크 60분.
      */
 
     static int l, c;
