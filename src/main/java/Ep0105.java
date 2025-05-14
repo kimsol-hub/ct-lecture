@@ -1,13 +1,5 @@
 import java.util.*;
 
-class Location {
-    int x, y;
-
-    public Location(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
-}
 public class Ep0105 {
     /**
      문제
@@ -65,43 +57,55 @@ public class Ep0105 {
      6 4 3 7 8 1 9 5 2
      2 5 8 3 9 4 7 6 1
 
-     소요시간 : 1450-1524, 시간 초과.. 1530-1540, DFS로 변경 20분 정도?
+     소요시간 : 1450-1524, 시간 초과.. 1530-1540, DFS로 변경 20분 정도?, 백트래킹 제대로 반영 못해서 실패. 수정..
      */
 
     static int[][] arr;
 
-    static int[] ch;
-
-    static Queue<Location> q;
-
-    public boolean isValid(int x, int y, int tmp) {
-        for (int i=0; i<9; i++) {
-            if (arr[i][y]==tmp || arr[x][i]==tmp) return false;
+    public boolean isValid(int r, int c, int num) {
+        for (int i = 0; i < 9; i++) {
+            if (arr[r][i] == num || arr[i][c] == num) return false;
         }
-        for (int i=0; i<3; i++) {
-            for (int j=0; j<3; j++) {
-                if(arr[(x/3)*3+i][(y/3)*3+j] == tmp)  return false;
+
+        int startRow = (r / 3) * 3;
+        int startCol = (c / 3) * 3;
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                if (arr[startRow + i][startCol + j] == num) return false;
             }
         }
         return true;
     }
 
-    public void DFS(int x, int y, int tmp) {
-        if (tmp > 9) {
-            q.offer(new Location(x, y));
-            return;
+    // r: 현재 처리할 칸의 행 인덱스
+    // c: 현재 처리할 칸의 열 인덱스
+    public boolean solveSudoku(int r, int c) {
+        if (c == 9) {
+            r++;
+            c = 0;
         }
-        else {
-            if (isValid(x, y, tmp)) {
-                arr[x][y] = tmp;
-                if (!q.isEmpty()) {
-                    Location o = q.poll();
-                    DFS(o.x, o.y, 1);
+
+        if (r == 9) {
+            return true;         }
+
+        if (arr[r][c] != 0) {
+            return solveSudoku(r, c + 1);
+        }
+
+        for (int num = 1; num <= 9; num++) {
+            if (isValid(r, c, num)) {
+                arr[r][c] = num;
+                if (solveSudoku(r, c + 1)) {
+                    return true;
                 }
-            } else {
-                DFS(x, y, tmp+1);
+                arr[r][c] = 0;
             }
         }
+
+
+        // 1부터 9까지 모든 숫자를 시도했지만 해결하지 못했다면,
+        // 현재 경로로는 해결할 수 없으므로 false 반환 (이전 칸으로 되돌아감)
+        return false;
     }
 
     public static void main(String[] args) {
@@ -110,23 +114,18 @@ public class Ep0105 {
 
         arr = new int[9][9];
 
-        q = new LinkedList<>();
-
-        for (int i=0; i<9; i++) {
-            for (int j=0; j<9; j++) {
-                int n = kb.nextInt();
-                arr[i][j] = n;
-                if (n==0) q.offer(new Location(i, j));
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                arr[i][j] = kb.nextInt();
             }
         }
-
-        Location o = q.poll();
-        main.DFS(o.x, o.y, 1);
-        for (int i=0; i<9; i++) {
-            for (int j=0; j<9; j++) {
+        main.solveSudoku(0, 0);
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
                 System.out.print(arr[i][j] + " ");
             }
             System.out.println();
         }
     }
+
 }
